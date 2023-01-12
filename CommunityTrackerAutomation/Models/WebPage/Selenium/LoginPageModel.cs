@@ -2,6 +2,10 @@
 using CognizantSoftvision.Maqs.BaseSeleniumTest.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
+using System.Linq;
+using OtpNet;
+using CognizantSoftvision.Maqs.Utilities.Helper;
+using System;
 
 namespace Models.WebPage.Selenium
 {
@@ -13,7 +17,7 @@ namespace Models.WebPage.Selenium
         /// <summary>
         /// The page url
         /// </summary>
-        private static string PageUrl = SeleniumConfig.GetWebSiteBase() + "Static/Training3/LoginPage.html";
+        private static string PageUrl = SeleniumConfig.GetWebSiteBase() + "login";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="LoginPageModel" /> class.
@@ -28,7 +32,7 @@ namespace Models.WebPage.Selenium
         /// </summary>
         private LazyElement UserNameInput
         {
-            get { return this.GetLazyElement(By.CssSelector("#name"), "User name input"); }
+            get { return this.GetLazyElement(By.CssSelector("input[type='email']"), "User name input"); }
         }
 
         /// <summary>
@@ -36,23 +40,47 @@ namespace Models.WebPage.Selenium
         /// </summary>
         private LazyElement PasswordInput
         {
-            get { return this.GetLazyElement(By.CssSelector("#pw"), "Password input"); }
+            get { return this.GetLazyElement(By.CssSelector("input[type='password']"), "Password input"); }
         }
 
         /// <summary>
-        /// Gets login button
+        /// Gets user name box
         /// </summary>
-        private LazyElement LoginButton
+        private LazyElement GoogleSignInButton
         {
-            get { return this.GetLazyElement(By.CssSelector("#Login"), "Login button"); }
+            get { return this.GetLazyElement(By.CssSelector("div[role='button']"), "Sign in with Google"); }
         }
 
         /// <summary>
-        /// Gets error message
+        /// Gets next button
         /// </summary>
-        private LazyElement ErrorMessage
+        private LazyElement NextButton
         {
-            get { return this.GetLazyElement(By.CssSelector("#LoginError"), "Error message"); }
+            get { return this.GetLazyElement(By.CssSelector("#identifierNext > div > button"), "Next button"); }
+        }
+
+        /// <summary>
+        /// Gets password next button
+        /// </summary>
+        private LazyElement PasswordNextButton
+        {
+            get { return this.GetLazyElement(By.CssSelector("#passwordNext > div > button"), "Password Next button"); }
+        }
+
+        /// <summary>
+        /// Gets password next button
+        /// </summary>
+        private LazyElement TotpPinInput
+        {
+            get { return this.GetLazyElement(By.CssSelector("#totpPin"), "Totp Pin Input"); }
+        }
+
+        /// <summary>
+        /// Gets password next button
+        /// </summary>
+        private LazyElement TotpNextButton
+        {
+            get { return this.GetLazyElement(By.CssSelector("#totpNext > div > button"), "Totp Pin Input"); }
         }
 
         /// <summary>
@@ -61,7 +89,12 @@ namespace Models.WebPage.Selenium
         public void OpenLoginPage()
         {
             this.TestObject.WebDriver.Navigate().GoToUrl(PageUrl);
-            this.AssertPageLoaded();
+        }
+
+        public void SwitchWindow()
+        {
+            var newWindow = this.TestObject.WebDriver.WindowHandles.Last();
+            this.TestObject.WebDriver.SwitchTo().Window(newWindow);
         }
 
         /// <summary>
@@ -71,46 +104,30 @@ namespace Models.WebPage.Selenium
         /// <param name="password">The user password</param>
         public void EnterCredentials(string userName, string password)
         {
-            this.UserNameInput.SendKeys(userName);
-            this.PasswordInput.SendKeys(password);
+            SwitchWindow();
+            UserNameInput.SendKeys(userName);
+            NextButton.Click();
+            PasswordInput.SendKeys(password);
+            PasswordNextButton.Click();
         }
 
-        /// <summary>
-        /// Enter the use credentials and log in - Navigation sample
-        /// </summary>
-        /// <param name="userName">The user name</param>
-        /// <param name="password">The user password</param>
-        /// <returns>The home page</returns>
-        public HomePageModel LoginWithValidCredentials(string userName, string password)
+        public void LoginWithValidCredentials(string userName, string password)
         {
+            //this.GoogleSignInButton.Click();
             this.EnterCredentials(userName, password);
-            this.LoginButton.Click();
+        }
+
+
+        public HomePageModel ByPass2FactorAuthentication()
+        {
+            var bytesecret = Base32Encoding.ToBytes(Config.GetGeneralValue("Secret"));
+            var totp = new Totp(bytesecret);
+            var generatedOtp = totp.ComputeTotp(DateTime.UtcNow);
+
+            TotpPinInput.SendKeys(generatedOtp);
+            TotpNextButton.Click();
 
             return new HomePageModel(this.TestObject);
-        }
-
-        /// <summary>
-        /// Enter the use credentials and try to log in - Verify login failed
-        /// </summary>
-        /// <param name="userName">The user name</param>
-        /// <param name="password">The user password</param>
-        /// <returns>True if the error message is displayed</returns>
-        public bool LoginWithInvalidCredentials(string userName, string password)
-        {
-            this.EnterCredentials(userName, password);
-            this.LoginButton.Click();
-            return this.ErrorMessage.Displayed;
-        }
-
-        /// <summary>
-        /// Assert the login page loaded
-        /// </summary>
-        public void AssertPageLoaded()
-        {
-            Assert.IsTrue(
-                this.IsPageLoaded(),
-                "The web page '{0}' is not loaded",
-                PageUrl);
         }
 
         /// <summary>
@@ -119,7 +136,7 @@ namespace Models.WebPage.Selenium
         /// <returns>True if the page was loaded</returns>
         public override bool IsPageLoaded()
         {
-            return this.UserNameInput.Displayed && this.PasswordInput.Displayed && this.LoginButton.Displayed;
+            return this.UserNameInput.Displayed && this.PasswordInput.Displayed && this.GoogleSignInButton.Displayed;
         }
     }
 }

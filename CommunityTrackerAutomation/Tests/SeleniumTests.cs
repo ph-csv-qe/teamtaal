@@ -1,11 +1,13 @@
 using CognizantSoftvision.Maqs.BaseDatabaseTest;
 using CognizantSoftvision.Maqs.BaseSeleniumTest;
 using CognizantSoftvision.Maqs.BaseWebServiceTest;
+using CognizantSoftvision.Maqs.Utilities.Helper;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Models.WebPage.Selenium;
 using System;
 using System.Data;
 using System.Linq;
+using System.Threading;
 
 namespace Tests
 {
@@ -35,47 +37,27 @@ namespace Tests
         // [ClassCleanup] - Disabled because this step will fail against the current base service
         public static void TestCleanup()
         {
-            // Do web service post run cleanup
-            WebServiceDriver client = new WebServiceDriver(new Uri(WebServiceConfig.GetWebServiceUri()));
-            string result = client.Delete("/api/String/Delete/1", "text/plain", true);
-            Assert.AreEqual(string.Empty, result);
+            //// Do web service post run cleanup
+            //WebServiceDriver client = new WebServiceDriver(new Uri(WebServiceConfig.GetWebServiceUri()));
+            //string result = client.Delete("/api/String/Delete/1", "text/plain", true);
+            //Assert.AreEqual(string.Empty, result);
         }
 
-        /// <summary>
-        /// Open page test
-        /// </summary>
-        [TestMethod]
-        public void OpenLoginPageTest()
-        {
-            LoginPageModel page = new LoginPageModel(this.TestObject);
-            page.OpenLoginPage();
-        }
 
         /// <summary>
         /// Enter credentials test
         /// </summary>
         [TestMethod]
-        public void EnterValidCredentialsTest()
+        public void EnterCredentialsTest()
         {
-            string username = "Ted";
-            string password = "123";
+            string username = Config.GetGeneralValue("Username");
+            string password = Config.GetGeneralValue("Password");
             LoginPageModel page = new LoginPageModel(this.TestObject);
             page.OpenLoginPage();
-            HomePageModel homepage = page.LoginWithValidCredentials(username, password);
+            page.LoginWithValidCredentials(username, password);
+            HomePageModel homepage = page.ByPass2FactorAuthentication();
             Assert.IsTrue(homepage.IsPageLoaded());
         }
 
-        /// <summary>
-        /// Enter credentials test
-        /// </summary>
-        [TestMethod]
-        public void EnterInvalidCredentials()
-        {
-            string username = "NOT";
-            string password = "Valid";
-            LoginPageModel page = new LoginPageModel(this.TestObject);
-            page.OpenLoginPage();
-            Assert.IsTrue(page.LoginWithInvalidCredentials(username, password));
-        }
     }
 }

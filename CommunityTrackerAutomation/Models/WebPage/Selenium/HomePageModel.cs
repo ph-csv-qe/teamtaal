@@ -18,11 +18,11 @@ namespace Models.WebPage.Selenium
         }
 
         /// <summary>
-        /// Gets welcome message
+        /// Gets Search Employee Input Box
         /// </summary>
-        private LazyElement WelcomeMessage
+        private LazyElement SearchEmployeeInput
         {
-            get { return this.GetLazyElement(By.CssSelector("#WelcomeMessage"), "Welcome message"); }
+            get { return this.GetLazyElement(By.TagName("input"), "Search Employee Input"); }
         }
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace Models.WebPage.Selenium
         /// <returns>True if the page was loaded</returns>
         public override bool IsPageLoaded()
         {
-            return this.WelcomeMessage.Displayed;
+            return this.SearchEmployeeInput.Exists;
         }
     }
 }
