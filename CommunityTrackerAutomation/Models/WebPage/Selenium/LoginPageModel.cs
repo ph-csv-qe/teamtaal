@@ -113,7 +113,9 @@ namespace Models.WebPage.Selenium
 
         public void LoginWithValidCredentials(string userName, string password)
         {
-            //this.GoogleSignInButton.Click();
+            int iframeCount = WebDriver.FindElements(By.TagName("iframe")).Count;
+            this.TestObject.WebDriver.SwitchTo().Frame(0);
+            this.GoogleSignInButton.Click();
             this.EnterCredentials(userName, password);
         }
 
