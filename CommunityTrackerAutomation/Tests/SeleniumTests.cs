@@ -8,6 +8,7 @@ using System;
 using System.Data;
 using System.Linq;
 using System.Threading;
+using System.Web.UI;
 
 namespace Tests
 {
@@ -59,5 +60,21 @@ namespace Tests
             Assert.IsTrue(homepage.IsPageLoaded());
         }
 
+        /// <summary>
+        /// Enter credentials test - Ace's work
+        /// </summary>
+        [TestMethod]
+        public void EnterCredentialsTest_Ace()
+        {
+            CMT_LoginPageModel login = new CMT_LoginPageModel(this.TestObject);
+            HomePageModel homepage = new HomePageModel(this.TestObject);
+
+            login.OpenLoginPage();
+            login.CLickSignInButton(0);
+            login.EnterCredentials(Config.GetGeneralValue("Email"), Config.GetGeneralValue("Password"), 1);
+            login.BypassGoogle2FA();
+
+            SoftAssert.Assert(() => Assert.IsTrue(homepage.IsPageLoaded(), "Expected true"));
+        }
     }
 }
