@@ -22,7 +22,31 @@ namespace Models.WebPage.Selenium
         /// </summary>
         private LazyElement SearchEmployeeInput
         {
-            get { return this.GetLazyElement(By.TagName("input"), "Search Employee Input"); }
+            get { return this.GetLazyElement(By.CssSelector("input[placeholder='Search Employee']"), "Search Employee Input"); }
+        }
+
+        /// <summary>
+        /// Gets Search Button
+        /// </summary>
+        private LazyElement SearchButton
+        {
+            get { return this.GetLazyElement(By.CssSelector("button[type='submit'] svg[data-testid='SearchIcon']"), "Search Button"); }
+        }
+
+        /// <summary>
+        /// Click search button
+        /// </summary>
+        public void ClickSearchButton()
+        {
+            this.SearchButton.Click();
+        }
+
+        /// <summary>
+        /// Enter employeeID in search input
+        /// </summary>
+        public void EnterEmployeeID(string employeeId)
+        {
+            this.SearchEmployeeInput.SendKeys(employeeId);
         }
 
         /// <summary>
@@ -31,6 +55,7 @@ namespace Models.WebPage.Selenium
         /// <returns>True if the page was loaded</returns>
         public override bool IsPageLoaded()
         {
+            WebDriver.SwitchTo().Window(WebDriver.WindowHandles[0]);
             return this.SearchEmployeeInput.Exists;
         }
     }
