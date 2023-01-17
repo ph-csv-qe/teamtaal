@@ -50,7 +50,7 @@ namespace Tests
         [TestMethod]
         public void EnterCredentialsTest()
         {
-            string username = Config.GetGeneralValue("Username");
+            string username = Config.GetGeneralValue("Username"); 
             string password = Config.GetGeneralValue("Password");
             LoginPageModel page = new LoginPageModel(this.TestObject);
             page.OpenLoginPage();
