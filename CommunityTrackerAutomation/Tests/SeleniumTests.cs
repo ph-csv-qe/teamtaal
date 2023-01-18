@@ -41,41 +41,26 @@ namespace Tests
             Assert.AreEqual(string.Empty, result);
         }
 
-        /// <summary>
-        /// Open page test
-        /// </summary>
-        [TestMethod]
-        public void OpenLoginPageTest()
-        {
-            LoginPageModel page = new LoginPageModel(this.TestObject);
-            page.OpenLoginPage();
-        }
 
         /// <summary>
         /// Enter credentials test
         /// </summary>
         [TestMethod]
-        public void EnterValidCredentialsTest()
+        public void LoginWithValidCredentials()
         {
-            string username = "Ted";
-            string password = "123";
-            LoginPageModel page = new LoginPageModel(this.TestObject);
-            page.OpenLoginPage();
-            HomePageModel homepage = page.LoginWithValidCredentials(username, password);
+            string username = "katrina.eligores@softvision.com";
+            string password = "District-Analysis-120";
+
+            LoginScreenModel page = new LoginScreenModel(this.TestObject);
+            string mainWindow = page.OpenLoginPage();
+
+            page.EnterValidCredentials(username, password);
+            page.ByPassAuthentication(mainWindow);
+
+            HomePageModel homepage = new HomePageModel(this.TestObject);
             Assert.IsTrue(homepage.IsPageLoaded());
+
         }
 
-        /// <summary>
-        /// Enter credentials test
-        /// </summary>
-        [TestMethod]
-        public void EnterInvalidCredentials()
-        {
-            string username = "NOT";
-            string password = "Valid";
-            LoginPageModel page = new LoginPageModel(this.TestObject);
-            page.OpenLoginPage();
-            Assert.IsTrue(page.LoginWithInvalidCredentials(username, password));
-        }
     }
 }

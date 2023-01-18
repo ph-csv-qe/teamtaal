@@ -20,9 +20,9 @@ namespace Models.WebPage.Selenium
         /// <summary>
         /// Gets welcome message
         /// </summary>
-        private LazyElement WelcomeMessage
+        private LazyElement CommunityHomepage
         {
-            get { return this.GetLazyElement(By.CssSelector("#WelcomeMessage"), "Welcome message"); }
+            get { return this.GetLazyElement(By.CssSelector(".MuiTypography-root"), "Community homepage"); }
         }
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace Models.WebPage.Selenium
         /// <returns>True if the page was loaded</returns>
         public override bool IsPageLoaded()
         {
-            return this.WelcomeMessage.Displayed;
+            return this.CommunityHomepage.Displayed;
         }
     }
 }
