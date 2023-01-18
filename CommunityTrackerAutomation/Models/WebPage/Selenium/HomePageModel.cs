@@ -34,6 +34,14 @@ namespace Models.WebPage.Selenium
         }
 
         /// <summary>
+        /// Gets Search Button
+        /// </summary>
+        private LazyElement UpdateSuccessNotification
+        {
+            get { return this.GetLazyElement(By.XPath("//div[text()='Member has been updated.']"), "Update success notification"); }
+        }
+
+        /// <summary>
         /// Click search button
         /// </summary>
         public void ClickSearchButton()
@@ -42,8 +50,17 @@ namespace Models.WebPage.Selenium
         }
 
         /// <summary>
-        /// Enter employeeID in search input
+        /// Click search button
         /// </summary>
+        public bool IsUpdateSuccessNotificationVisible()
+        {
+            return this.UpdateSuccessNotification.Displayed;
+        }
+
+        /// <summary>
+        /// Enters employeeID in search input
+        /// </summary>
+        /// <param name="employeeId"></param>
         public void EnterEmployeeID(string employeeId)
         {
             this.SearchEmployeeInput.SendKeys(employeeId);

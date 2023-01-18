@@ -28,6 +28,8 @@ namespace Models.WebPage.Selenium
         /// <summary>
         /// Gets Employee table row by eployee ID
         /// </summary>
+        /// <param name="employeeId"></param>
+        /// <returns></returns>
         private LazyElement EmployeeListTableRowById(string employeeId)
         {
             return this.GetLazyElement(By.XPath($"//div[@id='members-table-container']//td[text()='{employeeId}']"), "Search Employee Input");

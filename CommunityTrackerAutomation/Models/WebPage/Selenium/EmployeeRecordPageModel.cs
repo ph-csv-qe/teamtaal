@@ -1,9 +1,12 @@
 ﻿using CognizantSoftvision.Maqs.BaseSeleniumTest;
 using CognizantSoftvision.Maqs.BaseSeleniumTest.Extensions;
+using CognizantSoftvision.Maqs.Utilities.Helper;
+using MongoDB.Driver;
 using OpenQA.Selenium;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web.UI.WebControls;
 
 namespace Models.WebPage.Selenium
 {
@@ -45,14 +48,6 @@ namespace Models.WebPage.Selenium
         }
 
         /// <summary>
-        /// Gets remove icon on skill chip
-        /// </summary>
-        private IWebElement SkillChipRemoveIcon
-        {
-            get { return this.GetLazyElement(By.CssSelector("svg[data-testid='CancelIcon']"), "Skill chip remove icon"); }
-        }
-
-        /// <summary>
         /// Gets Save button
         /// </summary>
         private LazyElement SaveButton
@@ -71,13 +66,31 @@ namespace Models.WebPage.Selenium
         }
 
         /// <summary>
-        /// Click skills option randomly
+        /// Clicks random skill by option, SINGLE or MULTIPLE
         /// </summary>
-        public void ClickRandomSkillsOption()
+        /// <param name="option"></param>
+        public void ClickRandomSkillsOption(string option)
         {
             var random = new Random();
-            var randomOption = random.Next(-1, 139);
-            this.DynamicSkillsOption(randomOption.ToString()).Click();
+       
+            switch (option)
+            {
+                case "SINGLE":
+                    var randomOption = random.Next(-1, 139);
+                    this.DynamicSkillsOption(randomOption.ToString()).Click();
+                    break;
+
+                case "MULTIPLE":
+                    for (int i = 0; i < 3; i++)
+                    {
+                        var multiOption = random.Next(-1, 139);
+                        this.DynamicSkillsOption(multiOption.ToString()).Click();
+                        ClickSkillsInputField();
+                    }
+                    break;
+
+                default: break;
+            }
         }
 
         /// <summary>
@@ -97,11 +110,24 @@ namespace Models.WebPage.Selenium
         }
 
         /// <summary>
-        /// Remove skills by option
+        /// Gets total count of skill chip icon
         /// </summary>
+        public int GetTotalCountOfSkills()
+        {
+            WebDriver.Navigate().Refresh();
+            //Thread.Sleep is temporarily used due to element cannot be found without it, will do code refactoring for this page action
+            //System.Threading.Thread.Sleep(3000);
+            int numberOfElements = WebDriver.FindElements(By.CssSelector("svg[data-testid='CancelIcon']")).Count;
+            return numberOfElements;
+        }
+
+        /// <summary>
+        /// Remove skills by option, SINGLE or REMOVEALL
+        /// </summary>
+        /// <param name="option"></param>
         public void RemoveSkillsByOption(string option)
         {
-            ICollection<IWebElement> removeIcon = (ICollection<IWebElement>)SkillChipRemoveIcon;
+            IList<IWebElement> removeIcon = WebDriver.FindElements(By.CssSelector("svg[data-testid='CancelIcon']"));
             switch (option)
             {
                 case "SINGLE":
@@ -109,20 +135,12 @@ namespace Models.WebPage.Selenium
                     break;
 
                 case "REMOVEALL":
-                    this.ClickClearAllSkillsButton();
+                    this.SkillsInputField.Click();
+                    this.ClearAllSkillsButton.Click();
                     break;
 
                 default: break;
             }
-        }
-
-        /// <summary>
-        /// Click clear all skills in Skills input field
-        /// </summary>
-        public void ClickClearAllSkillsButton()
-        {
-            this.SkillsInputField.Click();
-            this.ClearAllSkillsButton.Click();
         }
 
         /// <summary>
