@@ -20,9 +20,9 @@ namespace Models.WebPage.Selenium
         /// <summary>
         /// Gets welcome message
         /// </summary>
-        private LazyElement CommunityHomepage
+        private LazyElement SearchEmployeeTextbox
         {
-            get { return this.GetLazyElement(By.CssSelector(".MuiTypography-root"), "Community homepage"); }
+            get { return this.GetLazyElement(By.TagName("input"), "Search Employee Textbox"); }
         }
 
         /// <summary>
@@ -31,7 +31,8 @@ namespace Models.WebPage.Selenium
         /// <returns>True if the page was loaded</returns>
         public override bool IsPageLoaded()
         {
-            return this.CommunityHomepage.Displayed;
+            return this.SearchEmployeeTextbox.Exists;
+
         }
     }
 }

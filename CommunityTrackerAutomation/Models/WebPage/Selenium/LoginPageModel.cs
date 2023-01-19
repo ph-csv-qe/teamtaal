@@ -116,6 +116,8 @@ namespace Models.WebPage.Selenium
             OtpTextbox.SendKeys(generateOtp);
             OtpNextButton.Click();
 
+            
+
             return new HomePageModel(this.TestObject);
         }
 
@@ -132,18 +134,6 @@ namespace Models.WebPage.Selenium
         {
             return this.EmailTextbox.Displayed && this.PasswordTextbox.Displayed && this.LoginButton.Displayed;
         }
-
-
-        //public void SwitchWindow()
-        //{
-        //    var newWindow = this.TestObject.WebDriver.WindowHandles.Last();
-        //    this.TestObject.WebDriver.SwitchTo().Window(newWindow);
-        //}
-
-        //public void SwitchToPreviousWindow(string mainWindow)
-        //{
-        //    this.TestObject.WebDriver.SwitchTo().Window(mainWindow);
-        //}
 
         public void SwitchToCurrentWindow()
         {
