@@ -1,6 +1,7 @@
 ﻿using CognizantSoftvision.Maqs.BaseSeleniumTest;
 using CognizantSoftvision.Maqs.BaseSeleniumTest.Extensions;
 using OpenQA.Selenium;
+using System.Linq;
 
 namespace Models.WebPage.Selenium
 {
@@ -34,11 +35,38 @@ namespace Models.WebPage.Selenium
         }
 
         /// <summary>
-        /// Gets Search Button
+        /// Gets Update Success Notification
         /// </summary>
         private LazyElement UpdateSuccessNotification
         {
             get { return this.GetLazyElement(By.XPath("//div[text()='Member has been updated.']"), "Update success notification"); }
+        }
+        /// <summary>
+        /// Dynamic Engineering Settings
+        /// </summary>
+        /// <param name="index">Index of the selected community in the url</param>
+        private LazyElement DynamicCommunitySettingsButton(string index)
+        {
+            return this.GetLazyElement(By.CssSelector($"a[href='/communities/update/{index}']"), "Community Settings Button");
+        }
+        /// <summary>
+        /// Dynamic View All Members
+        /// </summary>
+        /// <param name="index">Index of the selected community in the url</param>
+        private LazyElement DynamicCommunityViewAllMembersButton(string index)
+        {
+            return this.GetLazyElement(By.CssSelector($"a[href='/members/{index}']"), "Community View All Members");
+        }
+        /// <summary>
+        /// Navigating to specific community
+        /// </summary>
+        /// <param name="index">Index of the selected community in the url</param>
+        /// <returns></returns>
+        public void navigateToCommunity(int index)
+        {
+            var newWindow = this.TestObject.WebDriver.WindowHandles.First();
+            this.TestObject.WebDriver.SwitchTo().Window(newWindow);
+            this.DynamicCommunityViewAllMembersButton(index.ToString()).Click();
         }
 
         /// <summary>
