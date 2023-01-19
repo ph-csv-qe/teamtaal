@@ -1,6 +1,7 @@
 using CognizantSoftvision.Maqs.BaseDatabaseTest;
 using CognizantSoftvision.Maqs.BaseSeleniumTest;
 using CognizantSoftvision.Maqs.BaseWebServiceTest;
+using CognizantSoftvision.Maqs.Utilities.Helper;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Models.WebPage.Selenium;
 using System;
@@ -48,16 +49,17 @@ namespace Tests
         [TestMethod]
         public void LoginWithValidCredentials()
         {
-            string username = "katrina.eligores@softvision.com";
-            string password = "District-Analysis-120";
+            string email = Config.GetGeneralValue("Email");
+            string password = Config.GetGeneralValue("Password");
 
-            LoginScreenModel page = new LoginScreenModel(this.TestObject);
-            string mainWindow = page.OpenLoginPage();
-
-            page.EnterValidCredentials(username, password);
-            page.ByPassAuthentication(mainWindow);
-
+            LoginScreenModel loginPage = new LoginScreenModel(this.TestObject);
             HomePageModel homepage = new HomePageModel(this.TestObject);
+
+            loginPage.OpenLoginPage();
+            loginPage.ClickSignInButton();
+            loginPage.EnterValidCredentials(email, password);
+            loginPage.ByPassAuthentication();
+
             Assert.IsTrue(homepage.IsPageLoaded());
 
         }

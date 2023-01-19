@@ -1,5 +1,6 @@
 ﻿using CognizantSoftvision.Maqs.BaseSeleniumTest;
 using CognizantSoftvision.Maqs.BaseSeleniumTest.Extensions;
+using CognizantSoftvision.Maqs.Utilities.Helper;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
 using OtpNet;
@@ -17,7 +18,7 @@ namespace Models.WebPage.Selenium
         /// <summary>
         /// The page url
         /// </summary>
-        private static string PageUrl = "http://localhost:3000/login";
+        private static string PageUrl = SeleniumConfig.GetWebSiteBase() + "login";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="LoginScreenModel" /> class.
@@ -30,12 +31,12 @@ namespace Models.WebPage.Selenium
 
         private LazyElement SignInButton
         {
-            get { return this.GetLazyElement(By.CssSelector("#container > div > div"), "Mag-sign in sa Google"); }
+            get { return this.GetLazyElement(By.CssSelector("div[role='button']"), "Sign in with Google Button"); }
         }
 
         private LazyElement EmailTextbox
         {
-            get { return this.GetLazyElement(By.CssSelector("#identifierId"), "Email input"); }
+            get { return this.GetLazyElement(By.CssSelector("input[type='email']"), "Email input"); }
         }
 
         private LazyElement EmailNextButton
@@ -45,7 +46,7 @@ namespace Models.WebPage.Selenium
 
         private LazyElement PasswordTextbox
         {
-            get { return this.GetLazyElement(By.CssSelector("input[name='Passwd']"), "Password input"); }
+            get { return this.GetLazyElement(By.CssSelector("input[type='password']"), "Password input"); }
         }
 
         private LazyElement PasswordNextButton
@@ -79,42 +80,42 @@ namespace Models.WebPage.Selenium
 
 
 
-        public string OpenLoginPage()
+        public void OpenLoginPage()
         {
             this.TestObject.WebDriver.Navigate().GoToUrl(PageUrl);
-
-            //Assert.IsTrue(SignInButton.Displayed);
-
-            string mainWindow = this.TestObject.WebDriver.CurrentWindowHandle;
-            return mainWindow;
-
         }
 
-        public void EnterValidCredentials(string userName, string password)
+        public void ClickSignInButton()
         {
-            //this.SignInButton.Click();
-            this.SwitchWindow();
+            int iframeCount = WebDriver.FindElements(By.TagName("iframe")).Count;
+            WebDriver.SwitchTo().Frame(0);
 
-            this.EmailTextbox.SendKeys(userName);
-            this.EmailNextButton.Click();
-
-            this.PasswordTextbox.SendKeys(password);
-            this.PasswordNextButton.Click();
+            SignInButton.Click();
         }
 
-        public HomePageModel ByPassAuthentication(string mainWindow)
+        public void EnterValidCredentials(string email, string password)
         {
-            var bytesecret = Base32Encoding.ToBytes("4ncchltykx5fomhj726xstwzhar6u5qm");
+            SwitchToCurrentWindow();
+
+            EmailTextbox.SendKeys(email);
+            EmailNextButton.Click();
+
+            PasswordTextbox.SendKeys(password);
+            PasswordNextButton.Click();
+        }
+
+        public HomePageModel ByPassAuthentication()
+        {
+            var bytesecret = Base32Encoding.ToBytes(Config.GetGeneralValue("Secret"));
             var totp = new Totp(bytesecret);
             var generateOtp = totp.ComputeTotp(DateTime.UtcNow);
 
-            this.TryAnotherWayLink.Click();
-            this.GoogleAuthOption.Click();
+            TryAnotherWayLink.Click();
+            GoogleAuthOption.Click();
 
-            this.OtpTextbox.SendKeys(generateOtp);
-            this.OtpNextButton.Click();
+            OtpTextbox.SendKeys(generateOtp);
+            OtpNextButton.Click();
 
-            this.SwitchToPreviousWindow(mainWindow);
             return new HomePageModel(this.TestObject);
         }
 
@@ -133,15 +134,21 @@ namespace Models.WebPage.Selenium
         }
 
 
-        public void SwitchWindow()
+        //public void SwitchWindow()
+        //{
+        //    var newWindow = this.TestObject.WebDriver.WindowHandles.Last();
+        //    this.TestObject.WebDriver.SwitchTo().Window(newWindow);
+        //}
+
+        //public void SwitchToPreviousWindow(string mainWindow)
+        //{
+        //    this.TestObject.WebDriver.SwitchTo().Window(mainWindow);
+        //}
+
+        public void SwitchToCurrentWindow()
         {
             var newWindow = this.TestObject.WebDriver.WindowHandles.Last();
             this.TestObject.WebDriver.SwitchTo().Window(newWindow);
-        }
-
-        public void SwitchToPreviousWindow(string mainWindow)
-        {
-            this.TestObject.WebDriver.SwitchTo().Window(mainWindow);
         }
 
     }
