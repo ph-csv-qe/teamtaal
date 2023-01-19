@@ -78,41 +78,6 @@ namespace Models.WebPage.Selenium
         {
             GoToInputPageButton.Click();
         }
-        /// <summary>
-        /// Generate Random Employee Number
-        /// </summary>
-        /// <param name=""></param>
-        /// <returns>Returns a random employee number</returns>
-        public int GenerateRandomEmployeeNumber()
-        {
-            Random random = new Random();
-            int randomEmployeeNumber = random.Next(100000, 1000000);
-            
-            return randomEmployeeNumber;
-        }
-        /// <summary>
-        /// Generate Random Name
-        /// </summary>
-        /// <param name=""></param>
-        /// <returns>Returns a random name</returns>
-        public string GenerateRandomName()
-        {
-            Random random = new Random();
-            int randomNum = random.Next(0, 26);
-            string randomName = "Test Employee" + randomNum;
-            return randomName;
-        }
-        /// <summary>
-        /// Creating a new employee
-        /// </summary>
-        /// <param name=""></param>
-        public void CreateNewEmployee(bool probationary)
-        {
-            int employeeNumber = GenerateRandomEmployeeNumber();
-            string employeeName = GenerateRandomName();
-            this.ClickGoToInputPageButton();
-
-        }
         public override bool IsPageLoaded()
         {
             throw new NotImplementedException();

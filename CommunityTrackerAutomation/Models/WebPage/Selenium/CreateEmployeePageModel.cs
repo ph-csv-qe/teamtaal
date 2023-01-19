@@ -8,6 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using MongoDB.Driver;
 using System.Drawing;
+using CognizantSoftvision.Maqs.BaseTest;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.ComponentModel;
 
 namespace Models.WebPage.Selenium
 {
@@ -25,13 +28,6 @@ namespace Models.WebPage.Selenium
         }
 
         /// <summary>
-        /// Gets Go to Input Page
-        /// </summary>
-        private LazyElement GoToInputPageButton
-        {
-            get { return this.GetLazyElement(By.CssSelector("button[title='Go to Input Page']"), "Go to Input Page"); }
-        }
-        /// <summary>
         /// Gets Name
         /// </summary>
         private LazyElement NameTextbox
@@ -44,6 +40,23 @@ namespace Models.WebPage.Selenium
         private LazyElement CSVMailTextbox
         {
             get { return this.GetLazyElement(By.CssSelector("input[id='email']"), "CSV Mail"); }
+        }
+        /// <summary>
+        /// Gets Cognizant ID
+        /// </summary>
+        private LazyElement CognizantIDTextbox
+        {
+            get { return this.GetLazyElement(By.CssSelector("input#cognizantId"), "Cognizant ID"); }
+        }
+        /// <summary>
+        /// Gets Work State
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        private LazyElement WorkStateCombobox//(string index)
+        {
+            get { return this.GetLazyElement(By.CssSelector("div#mui-component-select-state"), "Work State"); }
+            //return this.GetLazyElement(By.Id($"li[role='option'][data-value={index}]"), "Work State"); 
         }
         /// <summary>
         /// Gets Job Level
@@ -78,7 +91,7 @@ namespace Models.WebPage.Selenium
         /// </summary>
         private LazyElement ProbationaryButton
         {
-            get { return this.GetLazyElement(By.CssSelector("div[class*='MuiGrid-root'] input[class*='MuiSwitch-input']"), "Probationary"); }
+            get { return this.GetLazyElement(By.CssSelector("div[class*='MuiGrid-root'] span[class*='MuiSwitch-thumb']"), "Probationary"); }
         }
         /// <summary>
         /// Gets Bench Tags
@@ -198,6 +211,118 @@ namespace Models.WebPage.Selenium
         private LazyElement SaveButton
         {
             get { return this.GetLazyElement(By.CssSelector("div[class*='MuiGrid-root MuiGrid-container'] button[type='submit']:nth-child(1)"), "SaveButton"); }
+        }
+        /// <summary>
+        /// Generate Random Employee Number
+        /// </summary>
+        /// <param name=""></param>
+        /// <returns>Returns a random employee number</returns>
+        public string GenerateRandomEmployeeNumber()
+        {
+            Random random = new Random();
+            int randomEmployeeNumber = random.Next(100000, 1000000);
+
+            return randomEmployeeNumber.ToString();
+        }
+        /// <summary>
+        /// Generate Random Name
+        /// </summary>
+        /// <param name=""></param>
+        /// <returns>Returns a random name</returns>
+        public string GenerateRandomName()
+        {
+            Random random = new Random();
+            int randomNum = random.Next(0, 26);
+            string randomName = "Test Employee" + randomNum;
+            return randomName;
+        }
+        /// <summary>
+        /// Click Checkbox
+        /// </summary>
+        /// <param name="checkbox"></param>
+        public void clickCheckbox(LazyElement checkbox)
+        {
+            checkbox.Click();
+        }
+        /// <summary>
+        /// Click Combobox
+        /// </summary>
+        /// <param name="combobox"></param>
+        public void clickCombobox(LazyElement combobox)
+        {
+            combobox.Click();
+        }
+        /// <summary>
+        /// Click Combobox
+        /// </summary>
+        /// <param name="combobox"></param>
+        /// <param name="index"></param>
+        public void selectItemCombobox(LazyElement combobox, int index)
+        {
+            this.clickCombobox(combobox);
+            this.GetLazyElement(By.CssSelector($"li[role='option'][data-value='{index.ToString()}']")).Click();
+
+        }
+        /// <summary>
+        /// Select Random Probationary
+        /// </summary>
+        /// <param name=""></param>
+        public void selectRandomProbationaryOption()
+        {
+
+        }
+        /// <summary>
+        /// Creating a new employee
+        /// </summary>
+        /// <param name="probationary"></param>
+        public void CreateNewEmployee(bool probationary)
+        {
+            EmployeeRecordPageModel employeeRecordPageModel = new EmployeeRecordPageModel(this.TestObject);
+
+            string employeeNumber = GenerateRandomEmployeeNumber();
+            string employeeName = GenerateRandomName();
+            string email = "Test03@gmail.com";
+            int workState = 1;
+            int jobLevel = 9;
+            string hiredDate = "02/01/2023";
+            string project = "MagenicPDPBench";
+
+            // Entering input for employee name
+            NameTextbox.SendKeys(employeeName);
+
+            // Entering input for email
+            CSVMailTextbox.SendKeys(email);
+
+            // Entering input for employee number
+            CognizantIDTextbox.SendKeys(employeeNumber);
+
+            // Selecting an option based on index for Job level combobox
+            this.selectItemCombobox(JobLevelCombobox, jobLevel);
+
+            // Selecting an option based on index for Workstate combobox
+            this.selectItemCombobox(WorkStateCombobox, workState);
+
+            // Selecting an option based on index for Hired Date combobox
+            HiredDateCombobox.SendKeys(hiredDate);
+            ProjectCombobox.SendKeys(project);
+
+            // Selecting a random series of skills
+            employeeRecordPageModel.ClickSkillsInputField();
+            employeeRecordPageModel.ClickRandomSkillsOption("MULTIPLE");
+
+            // If probatinary is true will select a random series of checkbox for probationary employee
+            if (probationary == true)
+            {
+                GoPAccountCheckbox.Click();
+                FourthMonthTouchpointMtgCheckbox.Click();
+                FifthMonthTouchpointMeetingCheckbox.Click();
+            }
+            else
+            {
+                employeeRecordPageModel.ClickSkillsInputField();
+                //ProbationaryButton.Click();
+            }
+            SaveButton.Click();
         }
         public override bool IsPageLoaded()
         {

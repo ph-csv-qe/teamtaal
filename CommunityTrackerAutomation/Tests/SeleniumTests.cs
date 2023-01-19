@@ -47,7 +47,7 @@ namespace Tests
         /// <summary>
         /// Enter credentials test
         /// </summary>
-        //[TestMethod]
+        [TestMethod]
         public void EnterCredentialsTest()
         {
             string username = Config.GetGeneralValue("Username");
@@ -57,35 +57,6 @@ namespace Tests
             page.LoginWithValidCredentials(username, password);
             HomePageModel homepage = page.ByPass2FactorAuthentication();
             Assert.IsTrue(homepage.IsPageLoaded());
-        }
-        /// <summary>
-        /// Enter credentials test
-        /// </summary>
-        [TestMethod]
-        public void Create_NewEmployee_On_QualityEngineering_While_Probationary_Is_Off()
-        {
-            // Instance of pages used
-            string username = Config.GetGeneralValue("Username");
-            string password = Config.GetGeneralValue("Password");
-            LoginPageModel loginPage = new LoginPageModel(this.TestObject);
-            MembersPage membersPage = new MembersPage(this.TestObject);
-            HomePageModel homepage = new HomePageModel(this.TestObject);
-
-            // Access login and enter credentials
-            loginPage.OpenLoginPage();
-            loginPage.LoginWithValidCredentials(username, password);
-            loginPage.ByPass2FactorAuthentication();
-
-            // Assert if Page is successfully loaded
-            Assert.IsTrue(homepage.IsPageLoaded());
-
-            // Navigate to Quality Engineering All Members Page
-            homepage.navigateToCommunity("3");
-
-            // Adding a new employee while probationary is off
-            membersPage.CreateNewEmployee(true);
-
-
         }
     }
 }
