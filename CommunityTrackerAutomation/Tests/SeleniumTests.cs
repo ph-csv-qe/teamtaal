@@ -58,6 +58,24 @@ namespace Tests
             HomePageModel homepage = page.ByPass2FactorAuthentication();
             Assert.IsTrue(homepage.IsPageLoaded());
         }
+        /// <summary>
+        /// Enter Project test
+        /// </summary>
+        [TestMethod]
+        public void AddProjectTest()
+        {
+            string username = Config.GetGeneralValue("Username");
+            string password = Config.GetGeneralValue("Password");
+            LoginPageModel page = new LoginPageModel(this.TestObject);
+            page.OpenLoginPage();
+            page.LoginWithValidCredentials(username, password);
+            HomePageModel homepage = page.ByPass2FactorAuthentication();
 
+            
+            AddProjectPageModel page2 = new AddProjectPageModel(this.TestObject);
+            page2.ReachAddProject(password);
+
+
+        }
     }
 }
