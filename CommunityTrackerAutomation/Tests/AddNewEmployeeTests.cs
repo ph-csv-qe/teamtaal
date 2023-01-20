@@ -13,7 +13,8 @@ using System.Threading.Tasks;
 namespace Tests
 {
     /// <summary>
-    /// Composite Selenium test class
+    /// Composite Add New Employee test class
+    /// Author: Emmanuel Ramiro E. Gaspar II
     /// </summary>
     [TestClass]
     public class AddNewEmployeeTests : BaseSeleniumTest
@@ -58,8 +59,7 @@ namespace Tests
 
             // Adding a new employee while probationary is off
             membersPage.ClickGoToInputPageButton();
-            createEmployeePage.CreateNewEmployee(false);
-            //SoftAssert.Assert(() => Assert.IsTrue(homepage.IsUpdateSuccessNotificationVisible(), "Member has been created."));
+            createEmployeePage.CreateNewEmployee(true, false);
 
         }
         /// <summary>
@@ -89,8 +89,7 @@ namespace Tests
 
             // Adding a new employee while probationary is off
             membersPage.ClickGoToInputPageButton();
-            createEmployeePage.CreateNewEmployee(true);
-            //SoftAssert.Assert(() => Assert.IsTrue(homepage.IsUpdateSuccessNotificationVisible(), "Member has been created."));
+            createEmployeePage.CreateNewEmployee(true, true);
 
         }
         /// <summary>
@@ -120,8 +119,7 @@ namespace Tests
 
             // Adding a new employee while probationary is off
             membersPage.ClickGoToInputPageButton();
-            createEmployeePage.CreateNewEmployee(true);
-            //SoftAssert.Assert(() => Assert.IsTrue(homepage.IsUpdateSuccessNotificationVisible(), "Member has been created."));
+            createEmployeePage.CreateNewEmployee(false, false); 
         }
     }
 }
