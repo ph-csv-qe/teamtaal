@@ -103,6 +103,38 @@ namespace Models.WebPage.Selenium
             WebDriver.SwitchTo().Window(WebDriver.WindowHandles[0]);
             return this.SearchEmployeeInput.Exists;
         }
+
+
+        /// <summary>
+        /// Enter employee name in search input
+        /// </summary>
+        /// <param name="employeeName"></param>
+        public void EnterEmployeeName(string employeeName)
+        {
+            WebDriver.SwitchTo().Window(WebDriver.WindowHandles[0]);
+            this.SearchEmployeeInput.SendKeys(employeeName);
+
+            this.SearchButton.Click();
+
+        }
+
+        /// <summary>
+        /// Switch window
+        /// </summary>
+        public void SwitchWindow()
+        {
+            var newWindow = this.TestObject.WebDriver.WindowHandles.Last();
+            this.TestObject.WebDriver.SwitchTo().Window(newWindow);
+        }
+
+        /// <summary>
+        /// Show result window
+        /// </summary>
+        public string SearchResultWindow()
+        {
+            return this.TestObject.WebDriver.FindElement(By.TagName("td")).Text;
+        }
+
     }
 }
 
