@@ -91,7 +91,7 @@ namespace Models.WebPage.Selenium
         /// </summary>
         private LazyElement ProbationaryButton
         {
-            get { return this.GetLazyElement(By.CssSelector("div[class*='MuiGrid-root'] span[class*='MuiSwitch-thumb']"), "Probationary"); }
+            get { return this.GetLazyElement(By.CssSelector("div[class*='MuiGrid-root'] span[class*='MuiSwitch-track']"), "Probationary"); }
         }
         /// <summary>
         /// Gets Bench Tags
@@ -225,6 +225,17 @@ namespace Models.WebPage.Selenium
             return randomEmployeeNumber.ToString();
         }
         /// <summary>
+        /// Generate Existing Employee Number
+        /// </summary>
+        /// <param name=""></param>
+        /// <returns>Returns an existing employee number</returns>
+        public string GenerateanExistingEmployeeNumber()
+        {
+            int existingEmployeeNumber = 2219891;
+
+            return existingEmployeeNumber.ToString();
+        }
+        /// <summary>
         /// Generate Random Name
         /// </summary>
         /// <param name=""></param>
@@ -267,15 +278,41 @@ namespace Models.WebPage.Selenium
         /// Select Random Probationary
         /// </summary>
         /// <param name=""></param>
-        public void selectRandomProbationaryOption()
+        public void selectThreeRandomProbationaryOption()
         {
+            Random random = new Random();
+            var listOfCheckboxSelectors = new List<LazyElement>()
+            {
+                BenchTagsCheckbox,
+                GoPAccountCheckbox,
+                ExpectationSettingMeetingCheckbox,
+                SignedExpectationSettingDocumentCheckbox,
+                MonthlyTouchpointIntroductionEmailCheckbox,
+                PerformanceEvaluationRecurringMeetingCheckbox,
+                IncludedInCommunityCommunicationsCheckbox,
+                GoPInstructionEmailCheckbox,
+                SecondMonthTouchpointMeetingCheckbox,
+                ThirdMonthTouchpointPerformanceEvaluationRequestToProjectLeadCheckbox,
+                ThirdMonthPerformanceEvaluationReceivedFromProjectLeadCheckbox,
+                ThirdMonthTouchpointMeetingCheckbox,
+                FourthMonthTouchpointMtgCheckbox,
+                FifthMonthTouchpointPerformanceEvaluationRequestToProjectLeadCheckbox,
+                FifthMonthPerformanceEvaluationReceivedFromProjectLeadCheckbox,
+                FifthMonthTouchpointMeetingCheckbox
+                
+            };
+            for(int i = 0; i < 3; i++)
+            {
+                int randomizer = random.Next(0, 15);
+                listOfCheckboxSelectors[randomizer].Click();
+            }
 
         }
         /// <summary>
         /// Creating a new employee
         /// </summary>
         /// <param name="probationary"></param>
-        public void CreateNewEmployee(bool probationary)
+        public void CreateNewEmployee(bool randomEmployeeNumber, bool probationary)
         {
             EmployeeRecordPageModel employeeRecordPageModel = new EmployeeRecordPageModel(this.TestObject);
 
@@ -294,8 +331,11 @@ namespace Models.WebPage.Selenium
             CSVMailTextbox.SendKeys(email);
 
             // Entering input for employee number
+            if (randomEmployeeNumber == false)
+            {
+                employeeNumber = "2219891";
+            }
             CognizantIDTextbox.SendKeys(employeeNumber);
-
             // Selecting an option based on index for Job level combobox
             this.selectItemCombobox(JobLevelCombobox, jobLevel);
 
@@ -313,9 +353,7 @@ namespace Models.WebPage.Selenium
             // If probatinary is true will select a random series of checkbox for probationary employee
             if (probationary == true)
             {
-                GoPAccountCheckbox.Click();
-                FourthMonthTouchpointMtgCheckbox.Click();
-                FifthMonthTouchpointMeetingCheckbox.Click();
+                selectThreeRandomProbationaryOption();
             }
             else
             {

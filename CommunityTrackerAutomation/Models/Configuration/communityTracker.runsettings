@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RunSettings>
+<RunConfiguration>
+<DisableAppDomain>True</DisableAppDomain>
+<MaxCpuCount>0</MaxCpuCount>
+<TestSessionTimeout>10800000</TestSessionTimeout>
+</RunConfiguration>
+<TestRunParameters>
+<Parameter name="GlobalMaqs:Username" value="email@softvision.com" />
+<Parameter name="GlobalMaqs:Password" value="password"/>
+<Parameter name="GlobalMaqs:Secret" value="otpcode"/>
+<Parameter name="SeleniumMaqs:WebSiteBase" value="http://localhost:3000/"/>
+</TestRunParameters>
+</RunSettings>
