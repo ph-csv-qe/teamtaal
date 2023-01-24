@@ -116,7 +116,7 @@ namespace Models.WebPage.Selenium
         {
             WebDriver.Navigate().Refresh();
             //Thread.Sleep is temporarily used due to element cannot be found without it, will do code refactoring for this page action
-            //System.Threading.Thread.Sleep(3000);
+            System.Threading.Thread.Sleep(3000);
             int numberOfElements = WebDriver.FindElements(By.CssSelector("svg[data-testid='CancelIcon']")).Count;
             return numberOfElements;
         }
