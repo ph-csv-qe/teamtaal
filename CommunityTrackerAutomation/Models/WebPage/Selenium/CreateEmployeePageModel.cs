@@ -53,10 +53,9 @@ namespace Models.WebPage.Selenium
         /// </summary>
         /// <param name="index"></param>
         /// <returns></returns>
-        private LazyElement WorkStateCombobox//(string index)
+        private LazyElement WorkStateCombobox
         {
             get { return this.GetLazyElement(By.Id("mui-component-select-state"), "Work State"); }
-            //return this.GetLazyElement(By.Id($"li[role='option'][data-value={index}]"), "Work State"); 
         }
         /// <summary>
         /// Gets Job Level
@@ -77,7 +76,7 @@ namespace Models.WebPage.Selenium
         /// </summary>
         private LazyElement ProjectCombobox
         {
-            get { return this.GetLazyElement(By.Id("mui-component-select-project"), "Project"); }
+            get { return this.GetLazyElement(By.CssSelector("div#mui-component-select-project"), "Project"); }
         }
         /// <summary>
         /// Gets Skills
@@ -299,9 +298,9 @@ namespace Models.WebPage.Selenium
                 FifthMonthTouchpointPerformanceEvaluationRequestToProjectLeadCheckbox,
                 FifthMonthPerformanceEvaluationReceivedFromProjectLeadCheckbox,
                 FifthMonthTouchpointMeetingCheckbox
-                
+
             };
-            for(int i = 0; i < 5; i++)
+            for (int i = 0; i < 5; i++)
             {
                 int randomizer = random.Next(0, 15);
                 listOfCheckboxSelectors[randomizer].Click();
@@ -312,7 +311,7 @@ namespace Models.WebPage.Selenium
         /// Creating a new employee
         /// </summary>
         /// <param name="probationary"></param>
-        public void CreateNewEmployee(bool randomEmployeeNumber, bool probationary)
+        public string CreateNewEmployee(bool randomEmployeeNumber, bool probationary)
         {
             EmployeeRecordPageModel employeeRecordPageModel = new EmployeeRecordPageModel(this.TestObject);
 
@@ -322,7 +321,7 @@ namespace Models.WebPage.Selenium
             int workState = 1;
             int jobLevel = 9;
             string hiredDate = "02/01/2023";
-            string project = "MagenicPDPBench";
+            int project = 1;
 
             // Entering input for employee name
             NameTextbox.SendKeys(employeeName);
@@ -344,7 +343,7 @@ namespace Models.WebPage.Selenium
 
             // Selecting an option based on index for Hired Date combobox
             HiredDateCombobox.SendKeys(hiredDate);
-            ProjectCombobox.SendKeys(project);
+            this.selectItemCombobox(ProjectCombobox, project);
 
             // Selecting a random series of skills
             employeeRecordPageModel.ClickSkillsInputField();
@@ -361,6 +360,7 @@ namespace Models.WebPage.Selenium
                 ProbationaryButton.Click();
             }
             SaveButton.Click();
+            return employeeNumber;
         }
         public override bool IsPageLoaded()
         {
