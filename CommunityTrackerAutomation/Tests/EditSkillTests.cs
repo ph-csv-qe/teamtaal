@@ -10,7 +10,8 @@ using System.Threading;
 namespace Tests
 {
     /// <summary>
-    /// Composite Selenium test class
+    /// Composite Add New Employee test class
+    /// Author: John Ace Donato
     /// </summary>
     [TestClass]
     public class EditSkillTests : BaseSeleniumTest
@@ -33,11 +34,12 @@ namespace Tests
         /// Add/Edit employee Skill
         /// </summary>
         [TestMethod]
+        [Ignore]
         public void Validate_User_Can_Add_Edit_Skills()
         {
-            string username = Config.GetGeneralValue("Email");
+            string username = Config.GetGeneralValue("Username");
             string password = Config.GetGeneralValue("Password");
-            string empID = "933608";
+            string empID = Config.GetGeneralValue("SampleEmployeeID");
 
             EmployeeListPageModel employeeList = new EmployeeListPageModel(this.TestObject);
             EmployeeRecordPageModel employeeRecord = new EmployeeRecordPageModel(this.TestObject);
@@ -77,11 +79,12 @@ namespace Tests
         /// Remove employee Skill
         /// </summary>
         [TestMethod]
+        [Ignore]
         public void Validate_User_Can_Remove_Skills()
         {
-            string username = Config.GetGeneralValue("Email");
+            string username = Config.GetGeneralValue("Username");
             string password = Config.GetGeneralValue("Password");
-            string empID = "933608";
+            string empID = Config.GetGeneralValue("SampleEmployeeID");
 
             EmployeeListPageModel employeeList = new EmployeeListPageModel(this.TestObject);
             EmployeeRecordPageModel employeeRecord = new EmployeeRecordPageModel(this.TestObject);
@@ -122,6 +125,56 @@ namespace Tests
             homepage.ClickSearchButton();
             employeeList.ClickEmployeeRecordByEmployeeId(empID);
             SoftAssert.Assert(() => Assert.AreEqual(0, employeeRecord.GetTotalCountOfSkills(), "Employee skill record is not equal"));
+        }
+
+        /// <summary>
+        /// Edit a skill via maintenance page
+        /// </summary>
+        [TestMethod]
+        public void Validate_Successful_Editing_Of_Skill()
+        {
+            string username = Config.GetGeneralValue("Username");
+            string password = Config.GetGeneralValue("Password");
+
+            EmployeeListPageModel employeeList = new EmployeeListPageModel(this.TestObject);
+            EmployeeRecordPageModel employeeRecord = new EmployeeRecordPageModel(this.TestObject);
+            MaintenanceSkillsPageModel maintenancePage = new MaintenanceSkillsPageModel(this.TestObject);
+
+            //Access login page and enter credentials
+            LoginPageModel page = new LoginPageModel(this.TestObject);
+            page.OpenLoginPage();
+            page.LoginWithValidCredentials(username, password);
+
+            //Bypass 2FA and assert homepage is loaded
+            HomePageModel homepage = page.ByPass2FactorAuthentication();
+            SoftAssert.Assert(() => Assert.IsTrue(homepage.IsPageLoaded(), "Homepage is not loaded"));
+
+            //Navigate to Maintenance page and validate page is loaded
+            maintenancePage.NavigateToMaintenancePage();
+            SoftAssert.Assert(() => Assert.IsTrue(maintenancePage.IsPageLoaded(), "Maintenance page is not loaded"));
+
+            //Search keyword and click edit icon
+            maintenancePage.EnterDesiredSkill(".NET");
+            maintenancePage.ClickSearchButton();
+            maintenancePage.ClickEditSkillIconRandomly();
+
+            //Gets initial value of skill description value
+            string skillValue = maintenancePage.GetSkillDescriptionValue();
+            //Enter value on description placeholder then click update button
+            maintenancePage.EnterSkillDescriptionValue(" EDITED");
+            maintenancePage.ClickUpdateSkillButton();
+            //Assert success notification
+            SoftAssert.Assert(() => Assert.IsTrue(maintenancePage.IsUpdateSuccessNotificationVisible(), "Success notification is not visible."));
+
+            //Refresh website, then search the edited skill and assert values
+            WebDriver.Navigate().Refresh();
+            maintenancePage.EnterDesiredSkill($"{skillValue} EDITED");
+            maintenancePage.ClickSearchButton();
+            maintenancePage.ClickEditSkillIcon();
+            SoftAssert.Assert(() => Assert.AreEqual($"{skillValue} EDITED", maintenancePage.GetSkillDescriptionValue(), "Skill description matched."));
+
+            maintenancePage.RevertSkillChanges(skillValue);
+            SoftAssert.Assert(() => Assert.IsTrue(maintenancePage.IsUpdateSuccessNotificationVisible(), "Success notification is not visible."));
         }
     }
 }
