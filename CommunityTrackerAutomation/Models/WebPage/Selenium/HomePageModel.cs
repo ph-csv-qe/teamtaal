@@ -41,6 +41,7 @@ namespace Models.WebPage.Selenium
         {
             get { return this.GetLazyElement(By.XPath("//div[text()='Member has been updated.']"), "Update success notification"); }
         }
+
         /// <summary>
         /// Dynamic Engineering Settings
         /// </summary>
