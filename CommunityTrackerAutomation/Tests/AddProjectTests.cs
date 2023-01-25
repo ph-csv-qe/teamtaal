@@ -38,7 +38,6 @@ namespace Tests
         [TestMethod]
         public void AddProjectTest()
         {
-<<<<<<< HEAD
             // Instances of the Pages Used
             string username = Config.GetGeneralValue("Username");
             string password = Config.GetGeneralValue("Password");
@@ -56,19 +55,7 @@ namespace Tests
 
             // Successfully Add a New Project
             addprojectPage.ReachAddProject();
-=======
-            string username = Config.GetGeneralValue("Username");
-            string password = Config.GetGeneralValue("Password");
-            LoginPageModel page = new LoginPageModel(this.TestObject);
-            page.OpenLoginPage();
-            page.LoginWithValidCredentials(username, password);
-            HomePageModel homepage = page.ByPass2FactorAuthentication();
 
-
-            AddProjectPageModel page2 = new AddProjectPageModel(this.TestObject);
-            page2.ReachAddProject(password);
->>>>>>> aef11847afa8ac82cf514c8c8669807896db9252
-
-        }
         }
     }
+}
