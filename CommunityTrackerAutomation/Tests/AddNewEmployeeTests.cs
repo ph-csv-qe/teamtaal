@@ -59,7 +59,8 @@ namespace Tests
 
             // Adding a new employee while probationary is off
             membersPage.ClickGoToInputPageButton();
-            createEmployeePage.CreateNewEmployee(true, false);
+            createEmployeePage.CreateNewRandomEmployee(true, false);
+            SoftAssert.Assert(() => Assert.IsTrue(homepage.IsNotificationMessageVisible("Member has been created.")), "Member has been created.");
 
         }
         /// <summary>
@@ -89,7 +90,8 @@ namespace Tests
 
             // Adding a new employee while probationary is off
             membersPage.ClickGoToInputPageButton();
-            createEmployeePage.CreateNewEmployee(true, true);
+            createEmployeePage.CreateNewRandomEmployee(true, true);
+            SoftAssert.Assert(() => Assert.IsTrue(homepage.IsNotificationMessageVisible("Member has been created.")), "Member has been created.");
 
         }
         /// <summary>
@@ -98,6 +100,17 @@ namespace Tests
         [TestMethod]
         public void Create_NewEmployee_On_QualityEngineering_With_Existing_Employee_Number()
         {
+            List<string> employeeDetailsList = new List<string>()
+            {
+                "2219891", // employee id
+                "Emmanuel Ramiro E. Gaspar II", // employee name
+                "emmanuel.gaspar@softvision.com", // email
+                "1", // Work state in index form
+                "9", // Position in index form
+                "22/08/2022", // Hired Date
+                "1" // Project in index form
+            };
+
             // Instance of pages used
             string username = Config.GetGeneralValue("Username");
             string password = Config.GetGeneralValue("Password");
@@ -119,7 +132,8 @@ namespace Tests
 
             // Adding a new employee while probationary is off
             membersPage.ClickGoToInputPageButton();
-            createEmployeePage.CreateNewEmployee(false, false); 
+            createEmployeePage.CreateNewEmployee(employeeDetailsList, false);
+            SoftAssert.Assert(() => Assert.IsTrue(homepage.IsNotificationMessageVisible("Member has been created.")), "Member has been created.");
         }
     }
 }
