@@ -25,6 +25,7 @@ namespace Models.WebPage.Selenium
         /// </summary>
         private LazyElement LandingPageHamburgerButton
         {
+<<<<<<< HEAD
             get { return this.GetLazyElement(By.CssSelector("button[type='button'] svg[data-testid='ArrowForwardIosIcon']"),"Menu Button"); }
             //get { return this.GetLazyElement(By.XPath("//*[@id='root']/div[2]/div[2]/button")); }
         }
@@ -55,13 +56,47 @@ namespace Models.WebPage.Selenium
         {
             get { return this.GetLazyElement(By.CssSelector("div.MuiDialogActions-root>button:nth-child(2)"), "Add Project Form - Add Button"); }
             //get { return this.GetLazyElement(By.XPath("/html/body/div[3]/div[3]/div/div[2]/button[2]")); }
+=======
+            get { return this.GetLazyElement(By.XPath("//*[@id='root']/div[2]/div[2]/button")); }
+        }
+        private LazyElement MaintenanceButton
+        {
+            get { return this.GetLazyElement(By.XPath("//*[@id='root']/div[2]/div[3]/div/div/div[2]/div[1]/ul/div[6]/div/div[2]/span")); }
+            //get { return this.GetLazyElement(By.XPath("//svg[data-testid=\'ConstructionIcon\']")); }
+        }
+        private LazyElement ProjectTab
+        {
+            get { return this.GetLazyElement(By.XPath("//button[@id='1']")); }
+            //
+        }
+        private LazyElement AddProjectButton
+        {
+            get { return this.GetLazyElement(By.XPath("//*[@id='1']/div/span/div[1]/button")); }
+            //get { return this.GetLazyElement(By.XPath("//div[id=\"1\"] button svg[data-testid='AddCircleOutlineIcon']")); }
+        }
+        private LazyElement AddProjectName
+        {
+            get { return this.GetLazyElement(By.Id("name")); }
+        }
+        private LazyElement AddProjectCode
+        {
+            get { return this.GetLazyElement(By.Id("code")); }
+        }
+        private LazyElement AddProjectDetailsButton
+        {
+            get { return this.GetLazyElement(By.XPath("/html/body/div[3]/div[3]/div/div[2]/button[2]")); }
+>>>>>>> aef11847afa8ac82cf514c8c8669807896db9252
         }
 
         public void SwitchToMainWindow()
         {
             WebDriver.SwitchTo().Window(WebDriver.WindowHandles[0]);
         }
+<<<<<<< HEAD
         public void ReachAddProject()
+=======
+        public void ReachAddProject(string password)
+>>>>>>> aef11847afa8ac82cf514c8c8669807896db9252
         {
             SwitchToMainWindow();
             LandingPageHamburgerButton.Click();

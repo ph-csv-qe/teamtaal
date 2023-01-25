@@ -58,6 +58,7 @@ namespace Tests
             HomePageModel homepage = page.ByPass2FactorAuthentication();
             Assert.IsTrue(homepage.IsPageLoaded());
         }
+<<<<<<< HEAD
         /// <summary>
         /// Enter Project test
         /// </summary>
@@ -77,5 +78,7 @@ namespace Tests
 
 
         }
+=======
+>>>>>>> aef11847afa8ac82cf514c8c8669807896db9252
     }
 }
