@@ -308,10 +308,10 @@ namespace Models.WebPage.Selenium
 
         }
         /// <summary>
-        /// Creating a new employee
+        /// Creating a new random employee
         /// </summary>
         /// <param name="probationary"></param>
-        public string CreateNewEmployee(bool randomEmployeeNumber, bool probationary)
+        public string CreateNewRandomEmployee(bool randomEmployeeNumber, bool probationary)
         {
             EmployeeRecordPageModel employeeRecordPageModel = new EmployeeRecordPageModel(this.TestObject);
 
@@ -348,6 +348,7 @@ namespace Models.WebPage.Selenium
             // Selecting a random series of skills
             employeeRecordPageModel.ClickSkillsInputField();
             employeeRecordPageModel.ClickRandomSkillsOption("MULTIPLE");
+            employeeRecordPageModel.ClickSkillsInputField();
 
             // If probatinary is true will select a random series of checkbox for probationary employee
             if (probationary == true)
@@ -360,7 +361,58 @@ namespace Models.WebPage.Selenium
                 ProbationaryButton.Click();
             }
             SaveButton.Click();
+            Console.WriteLine($"Created Random Employee Number: {employeeNumber}");
             return employeeNumber;
+        }
+        /// <summary>
+        /// Creating a new employee
+        /// </summary>
+        /// <param name="probationary"></param>
+        /// 
+        public string CreateNewEmployee(List<string>employeeDetailsList, bool probationary)
+        {
+            EmployeeRecordPageModel employeeRecordPageModel = new EmployeeRecordPageModel(this.TestObject);
+
+            // Entering input for employee name
+            NameTextbox.SendKeys(employeeDetailsList[1]);
+
+            // Entering input for email
+            CSVMailTextbox.SendKeys(employeeDetailsList[2]);
+
+            // Entering input for employee number
+            CognizantIDTextbox.SendKeys(employeeDetailsList[0]);
+
+            // Selecting an option based on index for Job level combobox
+            this.selectItemCombobox(JobLevelCombobox, Convert.ToInt32(employeeDetailsList[4]));
+
+            // Selecting an option based on index for Workstate combobox
+            this.selectItemCombobox(WorkStateCombobox, Convert.ToInt32(employeeDetailsList[3]));
+
+            // Selecting an option for Hired Date combobox
+            HiredDateCombobox.Clear();
+            HiredDateCombobox.SendKeys(employeeDetailsList[5]);
+
+            // Selecting an option based on index for Project combobox
+            this.selectItemCombobox(ProjectCombobox, Convert.ToInt32(employeeDetailsList[6]));
+
+            // Selecting a random series of skills
+            employeeRecordPageModel.ClickSkillsInputField();
+            employeeRecordPageModel.ClickRandomSkillsOption("MULTIPLE");
+            employeeRecordPageModel.ClickSkillsInputField();
+
+            // If probatinary is true will select a random series of checkbox for probationary employee
+            if (probationary == true)
+            {
+                selectFiveRandomProbationaryOption();
+            }
+            else
+            {
+                employeeRecordPageModel.ClickSkillsInputField();
+                ProbationaryButton.Click();
+            }
+            SaveButton.Click();
+            Console.WriteLine($"Created Employee Number: {employeeDetailsList[0]}");
+            return employeeDetailsList[0];
         }
         public override bool IsPageLoaded()
         {

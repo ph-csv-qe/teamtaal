@@ -41,7 +41,13 @@ namespace Models.WebPage.Selenium
         {
             get { return this.GetLazyElement(By.XPath("//div[text()='Member has been updated.']"), "Update success notification"); }
         }
-
+        /// <summary>
+        /// Gets Created Members Success Notification
+        /// </summary>
+        private LazyElement NotificationMessage(string message)
+        {
+            return this.GetLazyElement(By.XPath($"//div[text()='{message}']"), message);
+        }
         /// <summary>
         /// Dynamic Engineering Settings
         /// </summary>
@@ -84,6 +90,13 @@ namespace Models.WebPage.Selenium
         public bool IsUpdateSuccessNotificationVisible()
         {
             return this.UpdateSuccessNotification.Displayed;
+        }
+        /// <summary>
+        /// Gets Created Members Success Notification
+        /// </summary>
+        public bool IsNotificationMessageVisible(string message)
+        {
+            return this.NotificationMessage(message).Displayed;
         }
 
         /// <summary>
