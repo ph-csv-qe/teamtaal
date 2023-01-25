@@ -1,17 +1,20 @@
 ﻿using CognizantSoftvision.Maqs.BaseSeleniumTest;
 using CognizantSoftvision.Maqs.BaseSeleniumTest.Extensions;
+using CognizantSoftvision.Maqs.BaseTest;
 using CognizantSoftvision.Maqs.Utilities.Helper;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MongoDB.Driver;
 using OpenQA.Selenium;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Web.UI.WebControls;
 
 namespace Models.WebPage.Selenium
 {
     /// <summary>
-    /// Page object for the Automation page
+    /// Page object for the Maintenance page, Skill tab
     /// </summary>
     public class MaintenanceSkillsPageModel : BaseSeleniumPageModel
     {
@@ -91,7 +94,9 @@ namespace Models.WebPage.Selenium
         /// <summary>
         /// Gets skill value in a single row and column dynamically
         /// </summary>
-        private LazyElement DynamicSkillValue(string skillValue)
+        /// <param name="skillValue"></param>
+        /// <returns></returns>
+        private LazyElement DynamicSkillDataTableValue(string skillValue)
         {
             return this.GetLazyElement(By.XPath($"//td[text()='{skillValue}']"), "Get skill value in a single row and column");
         }
@@ -110,6 +115,14 @@ namespace Models.WebPage.Selenium
         private LazyElement EditSkillIcon
         {
             get { return this.GetLazyElement(By.CssSelector("svg[data-testid='EditIcon']"), "Edit skill icon"); }
+        }
+
+        /// <summary>
+        /// Gets Edit Skill toggle switch
+        /// </summary>
+        private LazyElement StatusToggleSwitch
+        {
+            get { return this.GetLazyElement(By.XPath("//div[@role='dialog']//input[@type='checkbox']/parent::span"), "Edit skill status toggle switch"); }
         }
 
         /// <summary>
@@ -142,13 +155,21 @@ namespace Models.WebPage.Selenium
         }
 
         /// <summary>
+        /// Click edit skill toggle switch
+        /// </summary>
+        public void ClickStatusToggleSwitch()
+        {
+            this.StatusToggleSwitch.Click();
+        }
+
+        /// <summary>
         /// Gets skill value by specific row
         /// </summary>
         /// <param name="skillValue"></param>
-        /// <returns></returns>
+        /// <returns>Returns Skill data table's specfic cell value via provided data</returns>
         public string GetSkillValueByRow(string skillValue)
         {
-            return this.DynamicSkillValue(skillValue).GetValue();
+            return this.DynamicSkillDataTableValue(skillValue).Text;
         }
 
         /// <summary>
@@ -210,10 +231,18 @@ namespace Models.WebPage.Selenium
         /// <param name="skill"></param>
         public void RevertSkillChanges(string skill)
         {
+            this.ClickEditSkillIcon();
             SkillDescriptionTextArea.SendKeys(Keys.LeftShift + Keys.Home);
             SkillDescriptionTextArea.SendKeys(Keys.Backspace);
             this.SkillDescriptionTextArea.SendKeys(skill);
+            this.ClickStatusToggleSwitch();
             this.ClickUpdateSkillButton();
+            WebDriver.Navigate().Refresh();
+            this.EnterDesiredSkill(skill);
+            this.ClickSearchButton();
+
+            Assert.AreEqual(skill, this.GetSkillValueByRow(skill), "Skill description not matched.");
+            Assert.AreEqual("Active", this.GetSkillValueByRow("Active"), "Skill status not matched");
         }
 
         /// <summary>

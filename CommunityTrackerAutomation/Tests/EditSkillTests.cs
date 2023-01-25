@@ -34,6 +34,7 @@ namespace Tests
         /// Add/Edit employee Skill
         /// </summary>
         [TestMethod]
+        /// Currently ignored since this test method is for Edit Skill via employee reocrds page
         [Ignore]
         public void Validate_User_Can_Add_Edit_Skills()
         {
@@ -79,6 +80,7 @@ namespace Tests
         /// Remove employee Skill
         /// </summary>
         [TestMethod]
+        /// Currently ignored since this test method is for Edit Skill via employee reocrds page
         [Ignore]
         public void Validate_User_Can_Remove_Skills()
         {
@@ -128,7 +130,7 @@ namespace Tests
         }
 
         /// <summary>
-        /// Edit a skill via maintenance page
+        /// Test Case Name: US-129 - AUTOMATION - Verify that admin can edit a skill via maintenance page
         /// </summary>
         [TestMethod]
         public void Validate_Successful_Editing_Of_Skill()
@@ -162,6 +164,7 @@ namespace Tests
             string skillValue = maintenancePage.GetSkillDescriptionValue();
             //Enter value on description placeholder then click update button
             maintenancePage.EnterSkillDescriptionValue(" EDITED");
+            maintenancePage.ClickStatusToggleSwitch();
             maintenancePage.ClickUpdateSkillButton();
             //Assert success notification
             SoftAssert.Assert(() => Assert.IsTrue(maintenancePage.IsUpdateSuccessNotificationVisible(), "Success notification is not visible."));
@@ -170,11 +173,10 @@ namespace Tests
             WebDriver.Navigate().Refresh();
             maintenancePage.EnterDesiredSkill($"{skillValue} EDITED");
             maintenancePage.ClickSearchButton();
-            maintenancePage.ClickEditSkillIcon();
-            SoftAssert.Assert(() => Assert.AreEqual($"{skillValue} EDITED", maintenancePage.GetSkillDescriptionValue(), "Skill description matched."));
-
+            SoftAssert.Assert(() => Assert.AreEqual($"{skillValue} EDITED", maintenancePage.GetSkillValueByRow($"{skillValue} EDITED"), "Skill description not matched."));
+            SoftAssert.Assert(() => Assert.AreEqual("Inactive", maintenancePage.GetSkillValueByRow($"Inactive"), "Skill status not matched"));
+            //Revert changes of an edited skill
             maintenancePage.RevertSkillChanges(skillValue);
-            SoftAssert.Assert(() => Assert.IsTrue(maintenancePage.IsUpdateSuccessNotificationVisible(), "Success notification is not visible."));
         }
     }
 }
