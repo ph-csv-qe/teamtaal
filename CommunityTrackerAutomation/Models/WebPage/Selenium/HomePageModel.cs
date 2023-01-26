@@ -2,6 +2,7 @@
 using CognizantSoftvision.Maqs.BaseSeleniumTest.Extensions;
 using OpenQA.Selenium;
 using System.Linq;
+using System.Web.UI.WebControls;
 
 namespace Models.WebPage.Selenium
 {
@@ -25,6 +26,8 @@ namespace Models.WebPage.Selenium
         {
             get { return this.GetLazyElement(By.CssSelector("input[placeholder='Search Employee']"), "Search Employee Input"); }
         }
+
+        private static By SearchEmployeeInputClass = By.CssSelector("td");
 
         /// <summary>
         /// Gets Search Button
@@ -125,12 +128,14 @@ namespace Models.WebPage.Selenium
         /// <param name="employeeName"></param>
         public void EnterEmployeeName(string employeeName)
         {
-            WebDriver.SwitchTo().Window(WebDriver.WindowHandles[0]);
+
             this.SearchEmployeeInput.SendKeys(employeeName);
 
             this.SearchButton.Click();
+            
 
-        }
+
+    }
 
         /// <summary>
         /// Switch window

@@ -62,7 +62,7 @@ namespace Tests
 
 
             // Assert if Page is successfully loaded
-            //Assert.IsTrue(homepage.IsPageLoaded());
+            Assert.IsTrue(homepage.IsPageLoaded());
 
             homepage.EnterEmployeeName(employeeName);
             Assert.AreEqual(employeeName, homepage.SearchResultNameWindow());
