@@ -43,10 +43,10 @@ namespace Tests
 
 
         /// <summary>
-        /// Search Community Member test
+        /// Search Community Member by Name test
         /// </summary>
         [TestMethod]
-        public void SearchCommunityMemberTest()
+        public void Search_Community_Member_By_Name_Test()
         {
             //Instance of pages used
             string username = Config.GetGeneralValue("Username");
@@ -65,7 +65,33 @@ namespace Tests
             //Assert.IsTrue(homepage.IsPageLoaded());
 
             homepage.EnterEmployeeName(employeeName);
-            Assert.AreEqual(employeeName, homepage.SearchResultWindow());
+            Assert.AreEqual(employeeName, homepage.SearchResultNameWindow());
+        }
+       
+        /// <summary>
+        /// Search Community Member by Cognizant ID test
+        /// </summary>
+        [TestMethod]
+        public void Search_Community_Member_By_Id_Test()
+        {
+            //Instance of pages used
+            string username = Config.GetGeneralValue("Username");
+            string password = Config.GetGeneralValue("Password");
+            string employeeId = "2107746";
+            LoginPageModel loginPage = new LoginPageModel(this.TestObject);
+            HomePageModel homepage = new HomePageModel(this.TestObject);
+
+            // Access login and enter credentials
+            loginPage.OpenLoginPage();
+            loginPage.LoginWithValidCredentials(username, password);
+            loginPage.ByPass2FactorAuthentication();
+
+
+            // Assert if Page is successfully loaded
+            //Assert.IsTrue(homepage.IsPageLoaded());
+
+            homepage.EnterEmployeeId(employeeId);
+            Assert.AreEqual(employeeId, homepage.SearchResultIdWindow());
         }
     }
 }

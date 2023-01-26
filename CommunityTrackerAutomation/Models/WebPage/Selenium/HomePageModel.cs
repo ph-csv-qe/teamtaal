@@ -120,7 +120,7 @@ namespace Models.WebPage.Selenium
 
 
         /// <summary>
-        /// Enter employee name in search input
+        /// Check search functionality by employee name input
         /// </summary>
         /// <param name="employeeName"></param>
         public void EnterEmployeeName(string employeeName)
@@ -135,7 +135,7 @@ namespace Models.WebPage.Selenium
         /// <summary>
         /// Switch window
         /// </summary>
-        public void SwitchWindow()
+        public void SwitchMemberNameWindow()
         {
             var newWindow = this.TestObject.WebDriver.WindowHandles.Last();
             this.TestObject.WebDriver.SwitchTo().Window(newWindow);
@@ -144,11 +144,41 @@ namespace Models.WebPage.Selenium
         /// <summary>
         /// Show result window
         /// </summary>
-        public string SearchResultWindow()
+        public string SearchResultNameWindow()
         {
             return this.TestObject.WebDriver.FindElement(By.TagName("td")).Text;
         }
 
+        
+        /// <summary>
+        /// Check search functionality by employee ID input
+        /// </summary>
+        /// <param Id="employeeId"></param>
+        public void EnterEmployeeId(string employeeId)
+        {
+            WebDriver.SwitchTo().Window(WebDriver.WindowHandles[0]);
+            this.SearchEmployeeInput.SendKeys(employeeId);
+
+            this.SearchButton.Click();
+
+        }
+
+        /// <summary>
+        /// Switch window
+        /// </summary>
+        public void SwitchMemberIdWindow()
+        {
+            var newWindow = this.TestObject.WebDriver.WindowHandles.Last();
+            this.TestObject.WebDriver.SwitchTo().Window(newWindow);
+        }
+
+        /// <summary>
+        /// Show result window
+        /// </summary>
+        public string SearchResultIdWindow()
+        {
+            return this.TestObject.WebDriver.FindElement(By.XPath("//td[text()='2107746']")).Text;
+        }
     }
 }
 
