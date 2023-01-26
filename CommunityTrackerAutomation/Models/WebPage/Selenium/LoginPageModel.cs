@@ -6,6 +6,8 @@ using System.Linq;
 using OtpNet;
 using CognizantSoftvision.Maqs.Utilities.Helper;
 using System;
+using System.Runtime.CompilerServices;
+using System.Collections.Generic;
 
 namespace Models.WebPage.Selenium
 {
@@ -84,6 +86,22 @@ namespace Models.WebPage.Selenium
         }
 
         /// <summary>
+        /// Gets try another way link
+        /// </summary>
+        private LazyElement TryAnotherWayLink
+        {
+            get { return this.GetLazyElement(By.XPath("//*[text() = 'Try another way']"), "Try Another Way Link"); }
+        }
+
+        /// <summary>
+        /// Gets Get a verification code from Google Authenticator app button
+        /// </summary>
+        private LazyElement GetAVerificationCodeFromGoogleAuthenticatorAppButton
+        {
+            get { return this.GetLazyElement(By.CssSelector("div[data-challengeindex='2']"), "Get a verification code from the Google Authenticator button"); }
+        }
+
+        /// <summary>
         /// Open the login page
         /// </summary>
         public void OpenLoginPage()
@@ -109,6 +127,18 @@ namespace Models.WebPage.Selenium
             NextButton.Click();
             PasswordInput.SendKeys(password);
             PasswordNextButton.Click();
+            WebDriver.Wait().ForPageLoad();
+        }
+        public void CheckIfPhonePromptAppears()
+        {
+            var tryAgainPromptIsDisplayed = WebDriver.FindElement(By.XPath("//*[text() = 'Try another way']")).Displayed;
+            Console.Write(tryAgainPromptIsDisplayed);
+            if (tryAgainPromptIsDisplayed == true){
+                TryAnotherWayLink.Click();
+                WebDriver.Wait().ForPageLoad();
+                GetAVerificationCodeFromGoogleAuthenticatorAppButton.Click();
+                WebDriver.Wait().ForPageLoad();
+            }
         }
 
         public void LoginWithValidCredentials(string userName, string password)
@@ -125,6 +155,9 @@ namespace Models.WebPage.Selenium
             var bytesecret = Base32Encoding.ToBytes(Config.GetGeneralValue("Secret"));
             var totp = new Totp(bytesecret);
             var generatedOtp = totp.ComputeTotp(DateTime.UtcNow);
+
+            // Checking if phone prompt appears
+            this.CheckIfPhonePromptAppears();
 
             TotpPinInput.SendKeys(generatedOtp);
             TotpNextButton.Click();

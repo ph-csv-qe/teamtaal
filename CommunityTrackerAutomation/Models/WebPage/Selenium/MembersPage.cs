@@ -2,6 +2,7 @@
 using CognizantSoftvision.Maqs.BaseSeleniumTest.Extensions;
 using CognizantSoftvision.Maqs.BaseTest;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using MongoDB.Driver;
 using OpenQA.Selenium;
 using Org.BouncyCastle.Bcpg.OpenPgp;
 using System;
@@ -32,14 +33,14 @@ namespace Models.WebPage.Selenium
         /// </summary>
         private LazyElement SearchTextbox
         {
-            get { return this.GetLazyElement(By.CssSelector("div[class='css-1a4tdcb-MuiStack-root'] input"), "Search Textbox"); }
+            get { return this.GetLazyElement(By.CssSelector("input[placeholder='Search']"), "Search Textbox"); }
         }
         /// <summary>
         /// Search Button
         /// </summary>
         private LazyElement SearchButton
         {
-            get { return this.GetLazyElement(By.CssSelector("div[class*='MuiPaper-root MuiPaper-elevation'] button[class*='MuiButton-root MuiButton-contained']"), "Search Button"); }
+            get { return this.GetLazyElement(By.XPath("//main[@class='css-yfo96e']//button[contains(text(),'Search')]"), "Search Button"); }
         }
         /// <summary>
         /// Go to input page
@@ -53,21 +54,21 @@ namespace Models.WebPage.Selenium
         /// </summary>
         private LazyElement IncludeProbationaryFieldsInExportCheckbox
         {
-            get { return this.GetLazyElement(By.CssSelector("label[class*='MuiFormControlLabel-root'] input"), "Include probationary fields in export"); }
+            get { return this.GetLazyElement(By.CssSelector("svg[data-testid='CheckBoxOutlineBlankIcon']"), "Include probationary fields in export"); }
         }
         /// <summary>
         /// Export
         /// </summary>
         private LazyElement ExportButton
         {
-            get { return this.GetLazyElement(By.CssSelector("button[class*='MuiButton-root'] svg[data-testid='FileDownloadRoundedIcon']"), "Export"); }
+            get { return this.GetLazyElement(By.CssSelector("button svg[data-testid='FileDownloadRoundedIcon']"), "Export"); }
         }
         /// <summary>
         /// Export
         /// </summary>
         private LazyElement EmployeeListGrid
         {
-            get { return this.GetLazyElement(By.CssSelector("div#members-table-container"), "Employee List"); }
+            get { return this.GetLazyElement(By.Id("members-table-container"), "Employee List"); }
         }
 
         /// <summary>
