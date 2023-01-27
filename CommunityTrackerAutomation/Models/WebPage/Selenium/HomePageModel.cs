@@ -121,21 +121,15 @@ namespace Models.WebPage.Selenium
             return this.SearchEmployeeInput.Exists;
         }
 
-
         /// <summary>
         /// Check search functionality by employee name input
         /// </summary>
         /// <param name="employeeName"></param>
         public void EnterEmployeeName(string employeeName)
         {
-
             this.SearchEmployeeInput.SendKeys(employeeName);
-
             this.SearchButton.Click();
-            
-
-
-    }
+         }
 
         /// <summary>
         /// Switch window
@@ -153,7 +147,6 @@ namespace Models.WebPage.Selenium
         {
             return this.TestObject.WebDriver.FindElement(By.TagName("td")).Text;
         }
-
         
         /// <summary>
         /// Check search functionality by employee ID input
@@ -163,9 +156,7 @@ namespace Models.WebPage.Selenium
         {
             WebDriver.SwitchTo().Window(WebDriver.WindowHandles[0]);
             this.SearchEmployeeInput.SendKeys(employeeId);
-
             this.SearchButton.Click();
-
         }
 
         /// <summary>

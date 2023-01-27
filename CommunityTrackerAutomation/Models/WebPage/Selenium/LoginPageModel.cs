@@ -93,6 +93,8 @@ namespace Models.WebPage.Selenium
             get { return this.GetLazyElement(By.XPath("//*[text() = 'Try another way']"), "Try Another Way Link"); }
         }
 
+        private static By TryAnotherWayLink2 = By.XPath("//*[text() = 'Try another way']");
+
         /// <summary>
         /// Gets Get a verification code from Google Authenticator app button
         /// </summary>
@@ -127,17 +129,31 @@ namespace Models.WebPage.Selenium
             NextButton.Click();
             PasswordInput.SendKeys(password);
             PasswordNextButton.Click();
-            WebDriver.Wait().ForPageLoad();
         }
+
+        /// <summary>
+        /// Checks the 2FA option screen before proceeding
+        /// </summary>
         public void CheckIfPhonePromptAppears()
         {
-            if(this.TryAnotherWayLink.Displayed)
+            WebDriver.Wait().ForPageLoad();
+            if (GetAVerificationCodeFromGoogleAuthenticatorAppButton.Displayed)
+            {
+                GetAVerificationCodeFromGoogleAuthenticatorAppButton.Click();
+                WebDriver.Wait().ForPageLoad();
+            }
+            else
             {
                 TryAnotherWayLink.Click();
                 WebDriver.Wait().ForPageLoad();
                 GetAVerificationCodeFromGoogleAuthenticatorAppButton.Click();
                 WebDriver.Wait().ForPageLoad();
             }
+        }
+
+        public bool IsTryAnotherLinkVisible()
+        {
+            return TryAnotherWayLink.Displayed;
         }
 
         public void LoginWithValidCredentials(string userName, string password)
