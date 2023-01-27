@@ -131,9 +131,8 @@ namespace Models.WebPage.Selenium
         }
         public void CheckIfPhonePromptAppears()
         {
-            var tryAgainPromptIsDisplayed = WebDriver.FindElement(By.XPath("//*[text() = 'Try another way']")).Displayed;
-            Console.Write(tryAgainPromptIsDisplayed);
-            if (tryAgainPromptIsDisplayed == true){
+            if(this.TryAnotherWayLink.Displayed)
+            {
                 TryAnotherWayLink.Click();
                 WebDriver.Wait().ForPageLoad();
                 GetAVerificationCodeFromGoogleAuthenticatorAppButton.Click();
