@@ -1,5 +1,6 @@
 ﻿using CognizantSoftvision.Maqs.BaseDatabaseTest;
 using CognizantSoftvision.Maqs.BaseSeleniumTest;
+using CognizantSoftvision.Maqs.BaseSeleniumTest.Extensions;
 using CognizantSoftvision.Maqs.Utilities.Helper;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Models.WebPage.Selenium;
@@ -45,6 +46,18 @@ namespace Tests
             MembersPage membersPage = new MembersPage(this.TestObject);
             CreateEmployeePageModel createEmployeePage = new CreateEmployeePageModel(this.TestObject);
             HomePageModel homepage = new HomePageModel(this.TestObject);
+            string employeeNumber = createEmployeePage.GenerateRandomEmployeeNumber();
+
+            List<string> employeeDetailsList = new List<string>()
+            {
+                employeeNumber, // employee id
+                "Employee Probationary Off", // employee name
+                "probationary.off@softvision.com", // email
+                "1", // Work state in index form
+                "9", // Position in index form
+                "22/08/2022", // Hired Date
+                "1" // Project in index form
+            };
 
             // Access login and enter credentials
             loginPage.OpenLoginPage();
@@ -56,10 +69,12 @@ namespace Tests
 
             // Navigate to Quality Engineering All Members Page
             homepage.navigateToCommunity(3);
+            WebDriver.Wait().ForPageLoad();
 
             // Adding a new employee while probationary is off
             membersPage.ClickGoToInputPageButton();
-            createEmployeePage.CreateNewRandomEmployee(true, false);
+            WebDriver.Wait().ForPageLoad();
+            createEmployeePage.CreateNewEmployee(employeeDetailsList, true);
             SoftAssert.Assert(() => Assert.IsTrue(homepage.IsNotificationMessageVisible("Member has been created.")), "Member has been created.");
 
         }
@@ -76,6 +91,18 @@ namespace Tests
             MembersPage membersPage = new MembersPage(this.TestObject);
             CreateEmployeePageModel createEmployeePage = new CreateEmployeePageModel(this.TestObject);
             HomePageModel homepage = new HomePageModel(this.TestObject);
+            string employeeNumber = createEmployeePage.GenerateRandomEmployeeNumber();
+
+            List<string> employeeDetailsList = new List<string>()
+            {
+                employeeNumber, // employee id
+                "Employee Probationary On", // employee name
+                "probationary.on@softvision.com", // email
+                "1", // Work state in index form
+                "9", // Position in index form
+                "22/08/2022", // Hired Date
+                "1" // Project in index form
+            };
 
             // Access login and enter credentials
             loginPage.OpenLoginPage();
@@ -87,10 +114,12 @@ namespace Tests
 
             // Navigate to Quality Engineering All Members Page
             homepage.navigateToCommunity(3);
+            WebDriver.Wait().ForPageLoad();
 
             // Adding a new employee while probationary is off
             membersPage.ClickGoToInputPageButton();
-            createEmployeePage.CreateNewRandomEmployee(true, true);
+            WebDriver.Wait().ForPageLoad();
+            createEmployeePage.CreateNewEmployee(employeeDetailsList, true);
             SoftAssert.Assert(() => Assert.IsTrue(homepage.IsNotificationMessageVisible("Member has been created.")), "Member has been created.");
 
         }
@@ -129,9 +158,11 @@ namespace Tests
 
             // Navigate to Quality Engineering All Members Page
             homepage.navigateToCommunity(3);
+            WebDriver.Wait().ForPageLoad();
 
             // Adding a new employee while probationary is off
             membersPage.ClickGoToInputPageButton();
+            WebDriver.Wait().ForPageLoad();
             createEmployeePage.CreateNewEmployee(employeeDetailsList, false);
             SoftAssert.Assert(() => Assert.IsTrue(homepage.IsNotificationMessageVisible("Member has been created.")), "Member has been created.");
         }
