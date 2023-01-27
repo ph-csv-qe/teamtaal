@@ -1,5 +1,6 @@
 ﻿using CognizantSoftvision.Maqs.BaseDatabaseTest;
 using CognizantSoftvision.Maqs.BaseSeleniumTest;
+using CognizantSoftvision.Maqs.BaseSeleniumTest.Extensions;
 using CognizantSoftvision.Maqs.Utilities.Helper;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Models.WebPage.Selenium;
@@ -68,9 +69,11 @@ namespace Tests
 
             // Navigate to Quality Engineering All Members Page
             homepage.navigateToCommunity(3);
+            WebDriver.Wait().ForPageLoad();
 
             // Adding a new employee while probationary is off
             membersPage.ClickGoToInputPageButton();
+            WebDriver.Wait().ForPageLoad();
             createEmployeePage.CreateNewEmployee(employeeDetailsList, true);
             SoftAssert.Assert(() => Assert.IsTrue(homepage.IsNotificationMessageVisible("Member has been created.")), "Member has been created.");
 
@@ -111,9 +114,11 @@ namespace Tests
 
             // Navigate to Quality Engineering All Members Page
             homepage.navigateToCommunity(3);
+            WebDriver.Wait().ForPageLoad();
 
             // Adding a new employee while probationary is off
             membersPage.ClickGoToInputPageButton();
+            WebDriver.Wait().ForPageLoad();
             createEmployeePage.CreateNewEmployee(employeeDetailsList, true);
             SoftAssert.Assert(() => Assert.IsTrue(homepage.IsNotificationMessageVisible("Member has been created.")), "Member has been created.");
 
@@ -153,9 +158,11 @@ namespace Tests
 
             // Navigate to Quality Engineering All Members Page
             homepage.navigateToCommunity(3);
+            WebDriver.Wait().ForPageLoad();
 
             // Adding a new employee while probationary is off
             membersPage.ClickGoToInputPageButton();
+            WebDriver.Wait().ForPageLoad();
             createEmployeePage.CreateNewEmployee(employeeDetailsList, false);
             SoftAssert.Assert(() => Assert.IsTrue(homepage.IsNotificationMessageVisible("Member has been created.")), "Member has been created.");
         }

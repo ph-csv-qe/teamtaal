@@ -304,6 +304,7 @@ namespace Models.WebPage.Selenium
             {
                 int randomizer = random.Next(-1, 15);
                 listOfCheckboxSelectors[randomizer].Click();
+                System.Threading.Thread.Sleep(2000);
             }
 
         }
@@ -348,7 +349,7 @@ namespace Models.WebPage.Selenium
             // Selecting a random series of skills
             employeeRecordPageModel.ClickSkillsInputField();
             employeeRecordPageModel.ClickRandomSkillsOption("MULTIPLE");
-            employeeRecordPageModel.ClickSkillsInputField();
+            //employeeRecordPageModel.ClickSkillsInputField();
 
             // If probatinary is true will select a random series of checkbox for probationary employee
             if (probationary == true)
@@ -398,7 +399,6 @@ namespace Models.WebPage.Selenium
             // Selecting a random series of skills
             employeeRecordPageModel.ClickSkillsInputField();
             employeeRecordPageModel.ClickRandomSkillsOption("MULTIPLE");
-            employeeRecordPageModel.ClickSkillsInputField();
 
             // If probatinary is true will select a random series of checkbox for probationary employee
             if (probationary == true)

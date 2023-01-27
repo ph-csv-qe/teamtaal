@@ -98,7 +98,7 @@ namespace Models.WebPage.Selenium
         /// </summary>
         private LazyElement GetAVerificationCodeFromGoogleAuthenticatorAppButton
         {
-            get { return this.GetLazyElement(By.CssSelector("div[data-challengeindex='2']"), "Get a verification code from the Google Authenticator button"); }
+            get { return this.GetLazyElement(By.XPath("//*[text() = 'Get a verification code from the ']"), "Get a verification code from the Google Authenticator button"); }
         }
 
         /// <summary>
