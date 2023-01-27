@@ -1,8 +1,10 @@
-﻿using CognizantSoftvision.Maqs.BaseSeleniumTest;
+﻿using AngleSharp.Common;
+using CognizantSoftvision.Maqs.BaseSeleniumTest;
 using CognizantSoftvision.Maqs.BaseSeleniumTest.Extensions;
 using CognizantSoftvision.Maqs.Utilities.Helper;
 using MongoDB.Driver;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,6 +39,14 @@ namespace Models.WebPage.Selenium
         private LazyElement SkillsInputField
         {
             get { return this.GetLazyElement(By.CssSelector("input#auto-complete-chip"), "Skills input field"); }
+        }
+
+        /// <summary>
+        /// Gets Project input field
+        /// </summary>
+        private LazyElement ProjectDropdown
+        {
+            get { return this.GetLazyElement(By.CssSelector("#mui-component-select-project"), "Project dropdown field"); }
         }
 
         /// <summary>
@@ -141,6 +151,39 @@ namespace Models.WebPage.Selenium
 
                 default: break;
             }
+        }
+
+        /// <summary>
+        /// Gets current value of Project
+        /// </summary>
+        public string GetCurrentProject()
+        {
+            string currentProject = ProjectDropdown.Text;
+            return currentProject;
+        }
+
+        /// <summary>
+        /// Gets current value of Project
+        /// </summary>
+        public string SelectDifferentProject(string currentProject)
+        {
+            IWebElement randomProject;
+            string updatedProject;
+            ProjectDropdown.Click();
+
+            var random = new Random();
+            var randomProjectIndex = random.Next(2, 20);
+
+            do
+            {
+                randomProject = this.GetLazyElement(By.CssSelector($"li[role='option'][data-value='{randomProjectIndex}']"));
+                randomProject.Click();
+
+                updatedProject = ProjectDropdown.Text;
+            }
+            while (currentProject == updatedProject);
+
+            return updatedProject;
         }
 
         /// <summary>
