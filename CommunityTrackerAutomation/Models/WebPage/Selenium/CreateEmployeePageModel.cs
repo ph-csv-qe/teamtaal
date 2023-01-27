@@ -219,7 +219,7 @@ namespace Models.WebPage.Selenium
         public string GenerateRandomEmployeeNumber()
         {
             Random random = new Random();
-            int randomEmployeeNumber = random.Next(100000, 1000000);
+            int randomEmployeeNumber = random.Next(2200000, 2400000);
 
             return randomEmployeeNumber.ToString();
         }
