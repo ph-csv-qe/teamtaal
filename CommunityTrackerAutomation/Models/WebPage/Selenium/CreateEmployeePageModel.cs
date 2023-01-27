@@ -349,7 +349,6 @@ namespace Models.WebPage.Selenium
             // Selecting a random series of skills
             employeeRecordPageModel.ClickSkillsInputField();
             employeeRecordPageModel.ClickRandomSkillsOption("MULTIPLE");
-            //employeeRecordPageModel.ClickSkillsInputField();
 
             // If probatinary is true will select a random series of checkbox for probationary employee
             if (probationary == true)
