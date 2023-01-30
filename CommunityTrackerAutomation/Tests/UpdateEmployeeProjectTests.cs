@@ -10,7 +10,7 @@ namespace Tests
 {
     /// <summary>
     /// Composite Search Employee test class
-    /// Author: Shiena
+    /// Author: Katrina
     /// </summary>
     [TestClass]
     public class UpdateEmployeeProjectTest : BaseSeleniumTest
