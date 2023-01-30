@@ -66,11 +66,14 @@ namespace Tests
             loginPage.LoginWithValidCredentials(username, password);
             loginPage.ByPass2FactorAuthentication();
 
+            // Assert if Page is successfully loaded
+            Assert.IsTrue(homepage.IsPageLoaded());
+
             for (int i = 0; i < 3; i++)
             {
                 //Search Employee and Open Details Page
                 homepage.EnterEmployeeName(employees[i]);
-                Assert.AreEqual(employees[i], homepage.SearchResultWindow());
+                Assert.AreEqual(employees[i], homepage.SearchResultNameWindow());
                 employeeList.ClickEmployeeRecordByEmployeeId(employeeIDs[i]);
                 SoftAssert.Assert(() => Assert.IsTrue(employeeRecord.IsPageLoaded(), "Employee record page is not loaded"));
 
