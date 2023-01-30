@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.3.32825.248
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.33130.400
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "CommunityTrackerAutomation\Models\Models.csproj", "{2ADDC762-1FA3-4183-B19D-D4FCC22974E2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Models", "CommunityTrackerAutomation\Models\Models.csproj", "{2ADDC762-1FA3-4183-B19D-D4FCC22974E2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "CommunityTrackerAutomation\Tests\Tests.csproj", "{6E843B0F-6D62-467C-A010-460FD0D0F52B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "CommunityTrackerAutomation\Tests\Tests.csproj", "{6E843B0F-6D62-467C-A010-460FD0D0F52B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
