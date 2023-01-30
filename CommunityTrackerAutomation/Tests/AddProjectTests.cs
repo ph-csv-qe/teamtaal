@@ -38,17 +38,24 @@ namespace Tests
         [TestMethod]
         public void AddProjectTest()
         {
+            // Instances of the Pages Used
             string username = Config.GetGeneralValue("Username");
             string password = Config.GetGeneralValue("Password");
-            LoginPageModel page = new LoginPageModel(this.TestObject);
-            page.OpenLoginPage();
-            page.LoginWithValidCredentials(username, password);
-            HomePageModel homepage = page.ByPass2FactorAuthentication();
+            LoginPageModel loginPage = new LoginPageModel(this.TestObject);
+            AddProjectPageModel addprojectPage = new AddProjectPageModel(this.TestObject);
+            HomePageModel homePage = new HomePageModel(this.TestObject);
 
+            // Access Login and enter credentials
+            loginPage.OpenLoginPage();
+            loginPage.LoginWithValidCredentials(username, password);
+            HomePageModel homepage = loginPage.ByPass2FactorAuthentication();
 
-            AddProjectPageModel page2 = new AddProjectPageModel(this.TestObject);
-            page2.ReachAddProject(password);
+            // Assert if page is successfully loaded
+            Assert.IsTrue(homePage.IsPageLoaded());
 
-        }
+            // Successfully Add a New Project
+            addprojectPage.ReachAddProject();
+
         }
     }
+}
