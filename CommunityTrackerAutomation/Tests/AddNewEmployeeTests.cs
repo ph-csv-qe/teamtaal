@@ -2,14 +2,18 @@
 using CognizantSoftvision.Maqs.BaseSeleniumTest;
 using CognizantSoftvision.Maqs.BaseSeleniumTest.Extensions;
 using CognizantSoftvision.Maqs.Utilities.Helper;
+using ExcelMapper;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Models.Sheet;
 using Models.WebPage.Selenium;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Models.Abstract.Enum;
 
 namespace Tests
 {
@@ -44,10 +48,14 @@ namespace Tests
             string password = Config.GetGeneralValue("Password");
             LoginPageModel loginPage = new LoginPageModel(this.TestObject);
             MembersPage membersPage = new MembersPage(this.TestObject);
+            EmployeeListPageModel employeeList = new EmployeeListPageModel(this.TestObject);
             CreateEmployeePageModel createEmployeePage = new CreateEmployeePageModel(this.TestObject);
+            EditEmployeePageModel editEmployeePageModel = new EditEmployeePageModel(this.TestObject);
             HomePageModel homepage = new HomePageModel(this.TestObject);
-            string employeeNumber = createEmployeePage.GenerateRandomEmployeeNumber();
 
+            // Variables used in the script
+            int selectedCommunity = (int)CommunityCards.QualityEngineering;
+            string employeeNumber = createEmployeePage.GenerateRandomEmployeeNumber();
             List<string> employeeDetailsList = new List<string>()
             {
                 employeeNumber, // employee id
@@ -68,7 +76,7 @@ namespace Tests
             Assert.IsTrue(homepage.IsPageLoaded());
 
             // Navigate to Quality Engineering All Members Page
-            homepage.navigateToCommunity(3);
+            homepage.navigateToCommunity(selectedCommunity);
             WebDriver.Wait().ForPageLoad();
 
             // Adding a new employee while probationary is off
@@ -77,6 +85,13 @@ namespace Tests
             createEmployeePage.CreateNewEmployee(employeeDetailsList, true);
             SoftAssert.Assert(() => Assert.IsTrue(homepage.IsNotificationMessageVisible("Member has been created.")), "Member has been created.");
 
+            // Clean up process using Inactive Button
+            homepage.EnterEmployeeID(employeeNumber);
+            homepage.ClickSearchButton();
+            employeeList.ClickEmployeeRecordByEmployeeId(employeeNumber);
+            editEmployeePageModel.ToggleActiveStatus(false);
+            editEmployeePageModel.ClickSaveButton();
+            SoftAssert.Assert(() => Assert.IsTrue(homepage.IsNotificationMessageVisible("Member has been updated.")), "Member has been updated.");
         }
         /// <summary>
         /// Adding New Employee While Probationary is On
@@ -89,10 +104,14 @@ namespace Tests
             string password = Config.GetGeneralValue("Password");
             LoginPageModel loginPage = new LoginPageModel(this.TestObject);
             MembersPage membersPage = new MembersPage(this.TestObject);
+            EmployeeListPageModel employeeList = new EmployeeListPageModel(this.TestObject);
             CreateEmployeePageModel createEmployeePage = new CreateEmployeePageModel(this.TestObject);
+            EditEmployeePageModel editEmployeePageModel = new EditEmployeePageModel(this.TestObject);
             HomePageModel homepage = new HomePageModel(this.TestObject);
-            string employeeNumber = createEmployeePage.GenerateRandomEmployeeNumber();
 
+            // Variables used in the script
+            int selectedCommunity = (int)CommunityCards.QualityEngineering;
+            string employeeNumber = createEmployeePage.GenerateRandomEmployeeNumber();
             List<string> employeeDetailsList = new List<string>()
             {
                 employeeNumber, // employee id
@@ -113,7 +132,7 @@ namespace Tests
             Assert.IsTrue(homepage.IsPageLoaded());
 
             // Navigate to Quality Engineering All Members Page
-            homepage.navigateToCommunity(3);
+            homepage.navigateToCommunity(selectedCommunity);
             WebDriver.Wait().ForPageLoad();
 
             // Adding a new employee while probationary is off
@@ -122,6 +141,13 @@ namespace Tests
             createEmployeePage.CreateNewEmployee(employeeDetailsList, true);
             SoftAssert.Assert(() => Assert.IsTrue(homepage.IsNotificationMessageVisible("Member has been created.")), "Member has been created.");
 
+            // Clean up process using Inactive Button
+            homepage.EnterEmployeeID(employeeNumber);
+            homepage.ClickSearchButton();
+            employeeList.ClickEmployeeRecordByEmployeeId(employeeNumber);
+            editEmployeePageModel.ToggleActiveStatus(false);
+            editEmployeePageModel.ClickSaveButton();
+            SoftAssert.Assert(() => Assert.IsTrue(homepage.IsNotificationMessageVisible("Member has been updated.")), "Member has been updated.");
         }
         /// <summary>
         /// Adding a new employee with existing employee number
@@ -145,8 +171,14 @@ namespace Tests
             string password = Config.GetGeneralValue("Password");
             LoginPageModel loginPage = new LoginPageModel(this.TestObject);
             MembersPage membersPage = new MembersPage(this.TestObject);
+            EmployeeListPageModel employeeList = new EmployeeListPageModel(this.TestObject);
             CreateEmployeePageModel createEmployeePage = new CreateEmployeePageModel(this.TestObject);
+            EditEmployeePageModel editEmployeePageModel = new EditEmployeePageModel(this.TestObject);
             HomePageModel homepage = new HomePageModel(this.TestObject);
+
+            // Variables used in the script
+            int selectedCommunity = (int)CommunityCards.QualityEngineering;
+            string employeeNumber = createEmployeePage.GenerateRandomEmployeeNumber();
 
             // Access login and enter credentials
             loginPage.OpenLoginPage();
@@ -157,7 +189,7 @@ namespace Tests
             Assert.IsTrue(homepage.IsPageLoaded());
 
             // Navigate to Quality Engineering All Members Page
-            homepage.navigateToCommunity(3);
+            homepage.navigateToCommunity(selectedCommunity);
             WebDriver.Wait().ForPageLoad();
 
             // Adding a new employee while probationary is off
