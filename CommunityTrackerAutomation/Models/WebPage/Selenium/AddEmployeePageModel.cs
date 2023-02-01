@@ -17,13 +17,13 @@ namespace Models.WebPage.Selenium
     /// <summary>
     /// Page object for the Automation page
     /// </summary>
-    public class CreateEmployeePageModel : BaseSeleniumPageModel
+    public class AddEmployeePageModel : BaseSeleniumPageModel
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="CreateEmployeePageModel" /> class.
+        /// Initializes a new instance of the <see cref="AddEmployeePageModel" /> class.
         /// </summary>
         /// <param name="testObject">The selenium test object</param>
-        public CreateEmployeePageModel(ISeleniumTestObject testObject) : base(testObject)
+        public AddEmployeePageModel(ISeleniumTestObject testObject) : base(testObject)
         {
         }
 
@@ -302,71 +302,17 @@ namespace Models.WebPage.Selenium
             };
             for (int i = 0; i < 5; i++)
             {
-                int randomizer = random.Next(0, 15);
+                //int randomizer = random.Next(0, 15);
+                int randomizer = random.Next(1, 16);
                 listOfCheckboxSelectors[randomizer].Click();
                 System.Threading.Thread.Sleep(2000);
             }
 
         }
         /// <summary>
-        /// Creating a new random employee
-        /// </summary>
-        /// <param name="probationary"></param>
-        public string CreateNewRandomEmployee(bool randomEmployeeNumber, bool probationary)
-        {
-            EmployeeRecordPageModel employeeRecordPageModel = new EmployeeRecordPageModel(this.TestObject);
-
-            string employeeNumber = GenerateRandomEmployeeNumber();
-            string employeeName = GenerateRandomName();
-            string email = "Test03@gmail.com";
-            int workState = 1;
-            int jobLevel = 9;
-            string hiredDate = "02/01/2023";
-            int project = 1;
-
-            // Entering input for employee name
-            NameTextbox.SendKeys(employeeName);
-
-            // Entering input for email
-            CSVMailTextbox.SendKeys(email);
-
-            // Entering input for employee number
-            if (randomEmployeeNumber == false)
-            {
-                employeeNumber = "2219891";
-            }
-            CognizantIDTextbox.SendKeys(employeeNumber);
-            // Selecting an option based on index for Job level combobox
-            this.selectItemCombobox(JobLevelCombobox, jobLevel);
-
-            // Selecting an option based on index for Workstate combobox
-            this.selectItemCombobox(WorkStateCombobox, workState);
-
-            // Selecting an option based on index for Hired Date combobox
-            HiredDateCombobox.SendKeys(hiredDate);
-            this.selectItemCombobox(ProjectCombobox, project);
-
-            // Selecting a random series of skills
-            employeeRecordPageModel.ClickSkillsInputField();
-            employeeRecordPageModel.ClickRandomSkillsOption("MULTIPLE");
-
-            // If probatinary is true will select a random series of checkbox for probationary employee
-            if (probationary == true)
-            {
-                selectFiveRandomProbationaryOption();
-            }
-            else
-            {
-                employeeRecordPageModel.ClickSkillsInputField();
-                ProbationaryButton.Click();
-            }
-            SaveButton.Click();
-            Console.WriteLine($"Created Random Employee Number: {employeeNumber}");
-            return employeeNumber;
-        }
-        /// <summary>
         /// Creating a new employee
         /// </summary>
+        /// <param name="employeeDetailsList"></param>
         /// <param name="probationary"></param>
         /// 
         public string CreateNewEmployee(List<string>employeeDetailsList, bool probationary)
@@ -415,7 +361,7 @@ namespace Models.WebPage.Selenium
         }
         public override bool IsPageLoaded()
         {
-            throw new NotImplementedException();
+            return this.CognizantIDTextbox.Exists;
         }
     }
 }

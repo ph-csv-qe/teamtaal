@@ -40,7 +40,7 @@ namespace Tests
         {
             LoginPageModel login = new LoginPageModel(this.TestObject);
             MembersPage membersPage = new MembersPage(this.TestObject);
-            CreateEmployeePageModel newEmployeeRecord = new CreateEmployeePageModel(this.TestObject);
+            AddEmployeePageModel newEmployeeRecord = new AddEmployeePageModel(this.TestObject);
             HomePageModel homepage = new HomePageModel(this.TestObject);
 
             EmployeeListPageModel employeeList = new EmployeeListPageModel(this.TestObject);
@@ -136,7 +136,7 @@ namespace Tests
         {
             LoginPageModel login = new LoginPageModel(this.TestObject);
             MembersPage membersPage = new MembersPage(this.TestObject);
-            CreateEmployeePageModel newEmployeeRecord = new CreateEmployeePageModel(this.TestObject);
+            AddEmployeePageModel newEmployeeRecord = new AddEmployeePageModel(this.TestObject);
             HomePageModel homepage = new HomePageModel(this.TestObject);
 
             EmployeeListPageModel employeeList = new EmployeeListPageModel(this.TestObject);
