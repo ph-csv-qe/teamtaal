@@ -1,4 +1,5 @@
-﻿using ExcelMapper;
+﻿using CognizantSoftvision.Maqs.BaseSeleniumTest;
+using ExcelMapper;
 using Models.Sheet;
 using System;
 using System.Collections.Generic;
@@ -21,13 +22,13 @@ namespace Models.Abstract
             string workingDirectory = Environment.CurrentDirectory;
             string projectDirectory = Directory.GetParent(workingDirectory).Parent.Parent.Parent.FullName;
 
-            var stream = File.OpenRead(Path.Combine(projectDirectory + @"\Allocation File\", "Allocation Mock Data.xlsx"));
+            var stream = File.OpenRead(Path.Combine(projectDirectory + @"\Models\Allocation File\", "Allocation Mock Data.xlsx"));
             var importer = new ExcelImporter(stream);
 
             sheet = importer.ReadSheet();
             return sheet.ReadRows<EmployeeModel>().ToList();
         }
-        /// <summary>
+        /*/// <summary>
         /// This is for DynamicData attribute
         /// </summary>
         /// <returns>IEnumberable array of object</returns>
@@ -40,6 +41,6 @@ namespace Models.Abstract
                     ReadExcelFile().ToArray<object>()
                 };
             }
-        }
+        }*/
     }
 }

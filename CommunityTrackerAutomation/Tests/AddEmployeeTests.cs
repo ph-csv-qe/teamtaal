@@ -4,6 +4,7 @@ using CognizantSoftvision.Maqs.BaseSeleniumTest.Extensions;
 using CognizantSoftvision.Maqs.Utilities.Helper;
 using ExcelMapper;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Models.Abstract;
 using Models.Sheet;
 using Models.WebPage.Selenium;
 using System;
@@ -28,6 +29,8 @@ namespace Tests
         /// Do database setup for test run
         /// </summary>
         // [ClassInitialize] - Disabled because this step will fail as the template does not include access to a test database
+        public static ExcelSheet sheet;
+        public static List<EmployeeModel> employees;
         public static void TestSetup(TestContext context)
         {
             // Do database setup
@@ -49,7 +52,7 @@ namespace Tests
             LoginPageModel loginPage = new LoginPageModel(this.TestObject);
             MembersPage membersPage = new MembersPage(this.TestObject);
             EmployeeListPageModel employeeList = new EmployeeListPageModel(this.TestObject);
-            CreateEmployeePageModel createEmployeePage = new CreateEmployeePageModel(this.TestObject);
+            AddEmployeePageModel createEmployeePage = new AddEmployeePageModel(this.TestObject);
             EditEmployeePageModel editEmployeePageModel = new EditEmployeePageModel(this.TestObject);
             HomePageModel homepage = new HomePageModel(this.TestObject);
 
@@ -105,7 +108,7 @@ namespace Tests
             LoginPageModel loginPage = new LoginPageModel(this.TestObject);
             MembersPage membersPage = new MembersPage(this.TestObject);
             EmployeeListPageModel employeeList = new EmployeeListPageModel(this.TestObject);
-            CreateEmployeePageModel createEmployeePage = new CreateEmployeePageModel(this.TestObject);
+            AddEmployeePageModel createEmployeePage = new AddEmployeePageModel(this.TestObject);
             EditEmployeePageModel editEmployeePageModel = new EditEmployeePageModel(this.TestObject);
             HomePageModel homepage = new HomePageModel(this.TestObject);
 
@@ -172,31 +175,42 @@ namespace Tests
             LoginPageModel loginPage = new LoginPageModel(this.TestObject);
             MembersPage membersPage = new MembersPage(this.TestObject);
             EmployeeListPageModel employeeList = new EmployeeListPageModel(this.TestObject);
-            CreateEmployeePageModel createEmployeePage = new CreateEmployeePageModel(this.TestObject);
+            AddEmployeePageModel createEmployeePage = new AddEmployeePageModel(this.TestObject);
             EditEmployeePageModel editEmployeePageModel = new EditEmployeePageModel(this.TestObject);
             HomePageModel homepage = new HomePageModel(this.TestObject);
 
-            // Variables used in the script
-            int selectedCommunity = (int)CommunityCards.QualityEngineering;
-            string employeeNumber = createEmployeePage.GenerateRandomEmployeeNumber();
+            // Verifying if employee is existing in the excel file
+            var employeeExcelList = DataReader.ReadExcelFile();
+            if (employeeExcelList[2].AssociateID == Convert.ToInt32(employeeDetailsList[0]))
+            {
+                Assert.AreEqual(employeeExcelList[2].AssociateID, Convert.ToInt32(employeeDetailsList[0]));
+                Assert.AreEqual(employeeExcelList[2].Name, employeeDetailsList[1]);
+                Assert.AreEqual(employeeExcelList[2].AssociateID, Convert.ToInt32(employeeDetailsList[0]));
+            }
+            else
+            {
+                // Variables used in the script
+                int selectedCommunity = (int)CommunityCards.QualityEngineering;
+                string employeeNumber = createEmployeePage.GenerateRandomEmployeeNumber();
 
-            // Access login and enter credentials
-            loginPage.OpenLoginPage();
-            loginPage.LoginWithValidCredentials(username, password);
-            loginPage.ByPass2FactorAuthentication();
+                // Access login and enter credentials
+                loginPage.OpenLoginPage();
+                loginPage.LoginWithValidCredentials(username, password);
+                loginPage.ByPass2FactorAuthentication();
 
-            // Assert if Page is successfully loaded
-            Assert.IsTrue(homepage.IsPageLoaded());
+                // Assert if Page is successfully loaded
+                Assert.IsTrue(homepage.IsPageLoaded());
 
-            // Navigate to Quality Engineering All Members Page
-            homepage.navigateToCommunity(selectedCommunity);
-            WebDriver.Wait().ForPageLoad();
+                // Navigate to Quality Engineering All Members Page
+                homepage.navigateToCommunity(selectedCommunity);
+                WebDriver.Wait().ForPageLoad();
 
-            // Adding a new employee while probationary is off
-            membersPage.ClickGoToInputPageButton();
-            WebDriver.Wait().ForPageLoad();
-            createEmployeePage.CreateNewEmployee(employeeDetailsList, false);
-            SoftAssert.Assert(() => Assert.IsTrue(homepage.IsNotificationMessageVisible("Member has been created.")), "Member has been created.");
+                // Adding a new employee while probationary is off
+                membersPage.ClickGoToInputPageButton();
+                WebDriver.Wait().ForPageLoad();
+                createEmployeePage.CreateNewEmployee(employeeDetailsList, false);
+                SoftAssert.Assert(() => Assert.IsTrue(homepage.IsNotificationMessageVisible("Member has been created.")), "Member has been created.");
+            }
         }
     }
 }
