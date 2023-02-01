@@ -184,6 +184,7 @@ namespace Tests
                 Assert.AreEqual(employeeExcelList[2].AssociateID, Convert.ToInt32(employeeDetailsList[0]));
                 Assert.AreEqual(employeeExcelList[2].Name, employeeDetailsList[1]);
                 Assert.AreEqual(employeeExcelList[2].Project, "MagenicPDPBench");
+                Assert.AreEqual(employeeExcelList[2].HireDate, $"{employeeDetailsList[5]} 12:00:00 am");
             }
             else
             {
