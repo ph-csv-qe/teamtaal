@@ -302,7 +302,8 @@ namespace Models.WebPage.Selenium
             };
             for (int i = 0; i < 5; i++)
             {
-                int randomizer = random.Next(0, 15);
+                //int randomizer = random.Next(0, 15);
+                int randomizer = random.Next(1, 16);
                 listOfCheckboxSelectors[randomizer].Click();
                 System.Threading.Thread.Sleep(2000);
             }

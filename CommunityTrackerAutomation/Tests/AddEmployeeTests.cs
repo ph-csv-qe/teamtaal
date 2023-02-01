@@ -181,8 +181,8 @@ namespace Tests
             var employeeExcelList = DataReader.ReadExcelFile();
             if (employeeExcelList[2].AssociateID == Convert.ToInt32(employeeDetailsList[0]))
             {
-                Assert.AreEqual(employeeExcelList[2].AssociateID, Convert.ToInt32(employeeDetailsList[0]));
-                Assert.AreEqual(employeeExcelList[2].Name, employeeDetailsList[1]);
+                Assert.AreEqual(employeeExcelList[2].AssociateID, Convert.ToInt32(employeeDetailsList[0]), $"Employee ID {employeeDetailsList[0]} is existing in the Allocation Mock Data");
+                Assert.AreEqual(employeeExcelList[2].Name, employeeDetailsList[1], $"Employee Name {employeeDetailsList[1]} is existing in the Allocation Mock Data");
                 Assert.AreEqual(employeeExcelList[2].Project, "MagenicPDPBench");
                 Assert.AreEqual(employeeExcelList[2].HireDate, $"{employeeDetailsList[5]} 12:00:00 am");
             }
