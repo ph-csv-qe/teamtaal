@@ -22,7 +22,7 @@ namespace Models.Abstract
             string workingDirectory = Environment.CurrentDirectory;
             string projectDirectory = Directory.GetParent(workingDirectory).Parent.Parent.Parent.FullName;
 
-            var stream = File.OpenRead(Path.Combine(projectDirectory + @"\Models\Allocation File\", "Allocation Mock Data.xlsx"));
+            var stream = File.OpenRead(Path.Combine(projectDirectory + @"\Models\AllocationFile\", "Allocation Mock Data.xlsx"));
             var importer = new ExcelImporter(stream);
 
             sheet = importer.ReadSheet();

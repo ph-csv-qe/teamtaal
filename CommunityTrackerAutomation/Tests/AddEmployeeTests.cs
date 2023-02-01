@@ -23,14 +23,12 @@ namespace Tests
     /// Author: Emmanuel Ramiro E. Gaspar II
     /// </summary>
     [TestClass]
-    public class AddNewEmployeeTests : BaseSeleniumTest
+    public class AddEmployeeTests : BaseSeleniumTest
     {
         /// <summary>
         /// Do database setup for test run
         /// </summary>
         // [ClassInitialize] - Disabled because this step will fail as the template does not include access to a test database
-        public static ExcelSheet sheet;
-        public static List<EmployeeModel> employees;
         public static void TestSetup(TestContext context)
         {
             // Do database setup
@@ -185,7 +183,7 @@ namespace Tests
             {
                 Assert.AreEqual(employeeExcelList[2].AssociateID, Convert.ToInt32(employeeDetailsList[0]));
                 Assert.AreEqual(employeeExcelList[2].Name, employeeDetailsList[1]);
-                Assert.AreEqual(employeeExcelList[2].AssociateID, Convert.ToInt32(employeeDetailsList[0]));
+                Assert.AreEqual(employeeExcelList[2].Project, "MagenicPDPBench");
             }
             else
             {
