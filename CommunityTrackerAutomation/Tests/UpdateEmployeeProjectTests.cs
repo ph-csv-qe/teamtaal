@@ -2,7 +2,9 @@
 using CognizantSoftvision.Maqs.BaseSeleniumTest;
 using CognizantSoftvision.Maqs.Utilities.Helper;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Models.Abstract;
 using Models.WebPage.Selenium;
+using System;
 using System.Data;
 using System.Linq;
 
@@ -50,12 +52,13 @@ namespace Tests
         {
             string PageUrl = SeleniumConfig.GetWebSiteBase();
 
-            //Instance of pages used
             string username = Config.GetGeneralValue("Username");
             string password = Config.GetGeneralValue("Password");
+
             string[] employees = { "Aaron Macapagal", "An Konim Valle", "John Rafael Ang"};
             string[] employeeIDs = { "2107746", "933909" , "933549" };
 
+            //Instance of pages used
             LoginPageModel loginPage = new LoginPageModel(this.TestObject);
             HomePageModel homepage = new HomePageModel(this.TestObject);
             EmployeeListPageModel employeeList = new EmployeeListPageModel(this.TestObject);
@@ -84,6 +87,59 @@ namespace Tests
 
                 //Go back to homepage
                 this.TestObject.WebDriver.Navigate().GoToUrl(PageUrl);
+                Assert.IsTrue(homepage.IsPageLoaded());
+            }
+
+        }
+
+
+        /// <summary>
+        /// Search Community Member test
+        /// </summary>
+        [TestMethod]
+        public void Update_employee_project()
+        {
+            string username = Config.GetGeneralValue("Username");
+            string password = Config.GetGeneralValue("Password");
+
+            //Instance of pages used
+            LoginPageModel loginPage = new LoginPageModel(this.TestObject);
+            HomePageModel homepage = new HomePageModel(this.TestObject);
+            EmployeeListPageModel employeeList = new EmployeeListPageModel(this.TestObject);
+            EmployeeRecordPageModel employeeRecord = new EmployeeRecordPageModel(this.TestObject);
+
+            // Access login and enter credentials
+            loginPage.OpenLoginPage();
+            loginPage.LoginWithValidCredentials(username, password);
+            loginPage.ByPass2FactorAuthentication();
+
+            // Assert if Page is successfully loaded
+            Assert.IsTrue(homepage.IsPageLoaded());
+
+            //Search Employee Name and Open Details Page
+            var employeeExcelList = DataReader.ReadExcelFile();
+            var employeeData = employeeExcelList[0];
+
+            homepage.EnterEmployeeName(employeeData.Name);
+            Assert.AreEqual(employeeData.Name, homepage.SearchResultNameWindow());
+            employeeList.ClickEmployeeRecordByEmployeeId(Convert.ToString(employeeData.AssociateID));
+            SoftAssert.Assert(() => Assert.IsTrue(employeeRecord.IsPageLoaded(), "Employee record page is not loaded"));
+
+            //Checks Current Selected Project
+            string selectedProject = employeeRecord.GetCurrentProject();
+
+            //Checks the Expected Employee Project on Excel Data File
+            string expectedProject = employeeData.Project;
+
+            //Updates Employee Project If It Doesn't Match Expected Project
+            if (expectedProject == selectedProject)
+            {
+                Assert.AreEqual(expectedProject, selectedProject);
+            }
+            else
+            {
+                selectedProject = employeeRecord.UpdateEmployeeProject(expectedProject);
+                Assert.AreEqual(expectedProject, selectedProject);
             }
 
         }

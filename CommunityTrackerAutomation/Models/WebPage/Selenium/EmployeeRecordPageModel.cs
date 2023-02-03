@@ -187,6 +187,27 @@ namespace Models.WebPage.Selenium
         }
 
         /// <summary>
+        /// Gets current value of Project
+        /// </summary>
+        public string  UpdateEmployeeProject(string expectedProject)
+        {
+            ProjectDropdown.Click();
+
+            IList<IWebElement> projectList = WebDriver.FindElements(By.CssSelector("li.MuiMenuItem-root"));
+            foreach(IWebElement project in projectList)
+            {
+                if(project.Text == expectedProject)
+                {
+                    project.Click();
+                    break;
+                }
+            }
+
+            string selectedProject = ProjectDropdown.Text;
+            return selectedProject;
+        }
+
+        /// <summary>
         /// Check if the employee list table has been shown
         /// </summary>
         /// <returns>True if the page was loaded</returns>
