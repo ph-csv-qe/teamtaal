@@ -84,6 +84,7 @@ namespace Tests
                 string currentProject = employeeRecord.GetCurrentProject();
                 string updatedProject = employeeRecord.SelectDifferentProject(currentProject);
                 Assert.AreNotEqual(currentProject, updatedProject);
+                employeeRecord.ClickSaveButton();
 
                 //Go back to homepage
                 this.TestObject.WebDriver.Navigate().GoToUrl(PageUrl);
