@@ -82,7 +82,7 @@ namespace Tests
 
                 //Checks Current Project, then Updates Project
                 string currentProject = employeeRecord.GetCurrentProject();
-                string updatedProject = employeeRecord.SelectDifferentProject(currentProject);
+                string updatedProject = employeeRecord.SelectRandomProject(currentProject);
                 Assert.AreNotEqual(currentProject, updatedProject);
                 employeeRecord.ClickSaveButton();
 
