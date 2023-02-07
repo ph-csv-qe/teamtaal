@@ -165,17 +165,18 @@ namespace Models.WebPage.Selenium
         /// <summary>
         /// Gets current value of Project
         /// </summary>
-        public string SelectDifferentProject(string currentProject)
+        public string SelectRandomProject(string currentProject)
         {
             IWebElement randomProject;
             string updatedProject;
             ProjectDropdown.Click();
 
             var random = new Random();
-            var randomProjectIndex = random.Next(2, 20);
 
             do
             {
+                var randomProjectIndex = random.Next(1, 20);
+
                 randomProject = this.GetLazyElement(By.CssSelector($"li[role='option'][data-value='{randomProjectIndex}']"));
                 randomProject.Click();
 
