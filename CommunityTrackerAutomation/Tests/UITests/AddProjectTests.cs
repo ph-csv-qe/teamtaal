@@ -1,4 +1,4 @@
-using CognizantSoftvision.Maqs.BaseDatabaseTest;
+﻿using CognizantSoftvision.Maqs.BaseDatabaseTest;
 using CognizantSoftvision.Maqs.BaseSeleniumTest;
 using CognizantSoftvision.Maqs.BaseWebServiceTest;
 using CognizantSoftvision.Maqs.Utilities.Helper;
@@ -9,13 +9,14 @@ using System.Data;
 using System.Linq;
 using System.Threading;
 
-namespace Tests
+namespace Tests.UITests
 {
     /// <summary>
-    /// Composite Selenium test class
+    /// Composite Add New Project Test Class
+    /// Author: Jasper Liwanag
     /// </summary>
     [TestClass]
-    public class SeleniumTests : BaseSeleniumTest
+    public class AddProjectTests : BaseSeleniumTest
     {
         /// <summary>
         /// Do database setup for test run
@@ -32,31 +33,29 @@ namespace Tests
         }
 
         /// <summary>
-        /// Do post test run web service cleanup
-        /// </summary>
-        // [ClassCleanup] - Disabled because this step will fail against the current base service
-        public static void TestCleanup()
-        {
-            //// Do web service post run cleanup
-            //WebServiceDriver client = new WebServiceDriver(new Uri(WebServiceConfig.GetWebServiceUri()));
-            //string result = client.Delete("/api/String/Delete/1", "text/plain", true);
-            //Assert.AreEqual(string.Empty, result);
-        }
-
-
-        /// <summary>
-        /// Enter credentials test
+        /// Successful Add Project Test
         /// </summary>
         [TestMethod]
-        public void EnterCredentialsTest()
+        public void AddProjectTest()
         {
+            // Instances of the Pages Used
             string username = Config.GetGeneralValue("Username");
             string password = Config.GetGeneralValue("Password");
-            LoginPageModel page = new LoginPageModel(this.TestObject);
-            page.OpenLoginPage();
-            page.LoginWithValidCredentials(username, password);
-            HomePageModel homepage = page.ByPass2FactorAuthentication();
-            Assert.IsTrue(homepage.IsPageLoaded());
+            LoginPageModel loginPage = new LoginPageModel(TestObject);
+            AddProjectPageModel addprojectPage = new AddProjectPageModel(TestObject);
+            HomePageModel homePage = new HomePageModel(TestObject);
+
+            // Access Login and enter credentials
+            loginPage.OpenLoginPage();
+            loginPage.LoginWithValidCredentials(username, password);
+            HomePageModel homepage = loginPage.ByPass2FactorAuthentication();
+
+            // Assert if page is successfully loaded
+            Assert.IsTrue(homePage.IsPageLoaded());
+
+            // Successfully Add a New Project
+            addprojectPage.ReachAddProject();
+
         }
     }
 }

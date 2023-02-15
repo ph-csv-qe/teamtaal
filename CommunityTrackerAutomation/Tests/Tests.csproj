@@ -19,6 +19,9 @@
   </ItemGroup>  
   <ItemGroup>
     <ProjectReference Include="..\Models\Models.csproj" />
+  </ItemGroup>  
+  <ItemGroup>
+    <Folder Include="WebServiceTests\" />
   </ItemGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

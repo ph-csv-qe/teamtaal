@@ -7,7 +7,7 @@ using System.Data;
 using System.Linq;
 using System.Threading;
 
-namespace Tests
+namespace Tests.UITests
 {
     /// <summary>
     /// Composite Add New Employee test class
@@ -42,11 +42,11 @@ namespace Tests
             string password = Config.GetGeneralValue("Password");
             string empID = Config.GetGeneralValue("SampleEmployeeID");
 
-            EmployeeListPageModel employeeList = new EmployeeListPageModel(this.TestObject);
-            EmployeeRecordPageModel employeeRecord = new EmployeeRecordPageModel(this.TestObject);
+            EmployeeListPageModel employeeList = new EmployeeListPageModel(TestObject);
+            EmployeeRecordPageModel employeeRecord = new EmployeeRecordPageModel(TestObject);
 
             //Access login page and enter credentials
-            LoginPageModel page = new LoginPageModel(this.TestObject);
+            LoginPageModel page = new LoginPageModel(TestObject);
             page.OpenLoginPage();
             page.LoginWithValidCredentials(username, password);
 
@@ -88,11 +88,11 @@ namespace Tests
             string password = Config.GetGeneralValue("Password");
             string empID = Config.GetGeneralValue("SampleEmployeeID");
 
-            EmployeeListPageModel employeeList = new EmployeeListPageModel(this.TestObject);
-            EmployeeRecordPageModel employeeRecord = new EmployeeRecordPageModel(this.TestObject);
+            EmployeeListPageModel employeeList = new EmployeeListPageModel(TestObject);
+            EmployeeRecordPageModel employeeRecord = new EmployeeRecordPageModel(TestObject);
 
             //Access login page and enter credentials
-            LoginPageModel page = new LoginPageModel(this.TestObject);
+            LoginPageModel page = new LoginPageModel(TestObject);
             page.OpenLoginPage();
             page.LoginWithValidCredentials(username, password);
 
@@ -138,12 +138,12 @@ namespace Tests
             string username = Config.GetGeneralValue("Username");
             string password = Config.GetGeneralValue("Password");
 
-            EmployeeListPageModel employeeList = new EmployeeListPageModel(this.TestObject);
-            EmployeeRecordPageModel employeeRecord = new EmployeeRecordPageModel(this.TestObject);
-            MaintenanceSkillsPageModel maintenancePage = new MaintenanceSkillsPageModel(this.TestObject);
+            EmployeeListPageModel employeeList = new EmployeeListPageModel(TestObject);
+            EmployeeRecordPageModel employeeRecord = new EmployeeRecordPageModel(TestObject);
+            MaintenanceSkillsPageModel maintenancePage = new MaintenanceSkillsPageModel(TestObject);
 
             //Access login page and enter credentials
-            LoginPageModel page = new LoginPageModel(this.TestObject);
+            LoginPageModel page = new LoginPageModel(TestObject);
             page.OpenLoginPage();
             page.LoginWithValidCredentials(username, password);
 

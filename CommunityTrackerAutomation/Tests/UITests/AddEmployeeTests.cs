@@ -16,7 +16,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static Models.Abstract.Enum;
 
-namespace Tests
+namespace Tests.UITests
 {
     /// <summary>
     /// Composite Add New Employee test class
@@ -47,12 +47,12 @@ namespace Tests
             // Instance of pages used
             string username = Config.GetGeneralValue("Username");
             string password = Config.GetGeneralValue("Password");
-            LoginPageModel loginPage = new LoginPageModel(this.TestObject);
-            MembersPage membersPage = new MembersPage(this.TestObject);
-            EmployeeListPageModel employeeList = new EmployeeListPageModel(this.TestObject);
-            AddEmployeePageModel createEmployeePage = new AddEmployeePageModel(this.TestObject);
-            EditEmployeePageModel editEmployeePageModel = new EditEmployeePageModel(this.TestObject);
-            HomePageModel homepage = new HomePageModel(this.TestObject);
+            LoginPageModel loginPage = new LoginPageModel(TestObject);
+            MembersPage membersPage = new MembersPage(TestObject);
+            EmployeeListPageModel employeeList = new EmployeeListPageModel(TestObject);
+            AddEmployeePageModel createEmployeePage = new AddEmployeePageModel(TestObject);
+            EditEmployeePageModel editEmployeePageModel = new EditEmployeePageModel(TestObject);
+            HomePageModel homepage = new HomePageModel(TestObject);
 
             // Variables used in the script
             int selectedCommunity = (int)CommunityCards.QualityEngineering;
@@ -103,12 +103,12 @@ namespace Tests
             // Instance of pages used
             string username = Config.GetGeneralValue("Username");
             string password = Config.GetGeneralValue("Password");
-            LoginPageModel loginPage = new LoginPageModel(this.TestObject);
-            MembersPage membersPage = new MembersPage(this.TestObject);
-            EmployeeListPageModel employeeList = new EmployeeListPageModel(this.TestObject);
-            AddEmployeePageModel createEmployeePage = new AddEmployeePageModel(this.TestObject);
-            EditEmployeePageModel editEmployeePageModel = new EditEmployeePageModel(this.TestObject);
-            HomePageModel homepage = new HomePageModel(this.TestObject);
+            LoginPageModel loginPage = new LoginPageModel(TestObject);
+            MembersPage membersPage = new MembersPage(TestObject);
+            EmployeeListPageModel employeeList = new EmployeeListPageModel(TestObject);
+            AddEmployeePageModel createEmployeePage = new AddEmployeePageModel(TestObject);
+            EditEmployeePageModel editEmployeePageModel = new EditEmployeePageModel(TestObject);
+            HomePageModel homepage = new HomePageModel(TestObject);
 
             // Variables used in the script
             int selectedCommunity = (int)CommunityCards.QualityEngineering;
@@ -170,12 +170,12 @@ namespace Tests
             // Instance of pages used
             string username = Config.GetGeneralValue("Username");
             string password = Config.GetGeneralValue("Password");
-            LoginPageModel loginPage = new LoginPageModel(this.TestObject);
-            MembersPage membersPage = new MembersPage(this.TestObject);
-            EmployeeListPageModel employeeList = new EmployeeListPageModel(this.TestObject);
-            AddEmployeePageModel createEmployeePage = new AddEmployeePageModel(this.TestObject);
-            EditEmployeePageModel editEmployeePageModel = new EditEmployeePageModel(this.TestObject);
-            HomePageModel homepage = new HomePageModel(this.TestObject);
+            LoginPageModel loginPage = new LoginPageModel(TestObject);
+            MembersPage membersPage = new MembersPage(TestObject);
+            EmployeeListPageModel employeeList = new EmployeeListPageModel(TestObject);
+            AddEmployeePageModel createEmployeePage = new AddEmployeePageModel(TestObject);
+            EditEmployeePageModel editEmployeePageModel = new EditEmployeePageModel(TestObject);
+            HomePageModel homepage = new HomePageModel(TestObject);
 
             // Verifying if employee is existing in the excel file
             var employeeExcelList = DataReader.ReadExcelFile();

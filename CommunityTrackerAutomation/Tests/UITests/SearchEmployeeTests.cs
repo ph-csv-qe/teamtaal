@@ -6,7 +6,7 @@ using Models.WebPage.Selenium;
 using System.Data;
 using System.Linq;
 
-namespace Tests
+namespace Tests.UITests
 {
     /// <summary>
     /// Composite Search Employee test class
@@ -52,8 +52,8 @@ namespace Tests
             string username = Config.GetGeneralValue("Username");
             string password = Config.GetGeneralValue("Password");
             string employeeName = "Aaron Macandili";
-            LoginPageModel loginPage = new LoginPageModel(this.TestObject);
-            HomePageModel homepage = new HomePageModel(this.TestObject);
+            LoginPageModel loginPage = new LoginPageModel(TestObject);
+            HomePageModel homepage = new HomePageModel(TestObject);
 
             // Access login and enter credentials
             loginPage.OpenLoginPage();
@@ -67,7 +67,7 @@ namespace Tests
             homepage.EnterEmployeeName(employeeName);
             Assert.AreEqual(employeeName, homepage.SearchResultNameWindow());
         }
-       
+
         /// <summary>
         /// Search Community Member by Cognizant ID test
         /// </summary>
@@ -78,8 +78,8 @@ namespace Tests
             string username = Config.GetGeneralValue("Username");
             string password = Config.GetGeneralValue("Password");
             string employeeId = "2107746";
-            LoginPageModel loginPage = new LoginPageModel(this.TestObject);
-            HomePageModel homepage = new HomePageModel(this.TestObject);
+            LoginPageModel loginPage = new LoginPageModel(TestObject);
+            HomePageModel homepage = new HomePageModel(TestObject);
 
             // Access login and enter credentials
             loginPage.OpenLoginPage();

@@ -8,7 +8,7 @@ using System;
 using System.Data;
 using System.Linq;
 
-namespace Tests
+namespace Tests.UITests
 {
     /// <summary>
     /// Composite Search Employee test class
@@ -55,14 +55,14 @@ namespace Tests
             string username = Config.GetGeneralValue("Username");
             string password = Config.GetGeneralValue("Password");
 
-            string[] employees = { "Aaron Macapagal", "An Konim Valle", "John Rafael Ang"};
-            string[] employeeIDs = { "2107746", "933909" , "933549" };
+            string[] employees = { "Aaron Macapagal", "An Konim Valle", "John Rafael Ang" };
+            string[] employeeIDs = { "2107746", "933909", "933549" };
 
             //Instance of pages used
-            LoginPageModel loginPage = new LoginPageModel(this.TestObject);
-            HomePageModel homepage = new HomePageModel(this.TestObject);
-            EmployeeListPageModel employeeList = new EmployeeListPageModel(this.TestObject);
-            EmployeeRecordPageModel employeeRecord = new EmployeeRecordPageModel(this.TestObject);
+            LoginPageModel loginPage = new LoginPageModel(TestObject);
+            HomePageModel homepage = new HomePageModel(TestObject);
+            EmployeeListPageModel employeeList = new EmployeeListPageModel(TestObject);
+            EmployeeRecordPageModel employeeRecord = new EmployeeRecordPageModel(TestObject);
 
             // Access login and enter credentials
             loginPage.OpenLoginPage();
@@ -87,7 +87,7 @@ namespace Tests
                 employeeRecord.ClickSaveButton();
 
                 //Go back to homepage
-                this.TestObject.WebDriver.Navigate().GoToUrl(PageUrl);
+                TestObject.WebDriver.Navigate().GoToUrl(PageUrl);
                 Assert.IsTrue(homepage.IsPageLoaded());
             }
 
@@ -104,10 +104,10 @@ namespace Tests
             string password = Config.GetGeneralValue("Password");
 
             //Instance of pages used
-            LoginPageModel loginPage = new LoginPageModel(this.TestObject);
-            HomePageModel homepage = new HomePageModel(this.TestObject);
-            EmployeeListPageModel employeeList = new EmployeeListPageModel(this.TestObject);
-            EmployeeRecordPageModel employeeRecord = new EmployeeRecordPageModel(this.TestObject);
+            LoginPageModel loginPage = new LoginPageModel(TestObject);
+            HomePageModel homepage = new HomePageModel(TestObject);
+            EmployeeListPageModel employeeList = new EmployeeListPageModel(TestObject);
+            EmployeeRecordPageModel employeeRecord = new EmployeeRecordPageModel(TestObject);
 
             // Access login and enter credentials
             loginPage.OpenLoginPage();

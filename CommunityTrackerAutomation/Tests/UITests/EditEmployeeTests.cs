@@ -9,7 +9,7 @@ using System.Linq;
 using System.Threading;
 using CognizantSoftvision.Maqs.BaseSeleniumTest.Extensions;
 
-namespace Tests
+namespace Tests.UITests
 {
     /// <summary>
     /// Edit Employee Record
@@ -38,14 +38,14 @@ namespace Tests
         [TestMethod]
         public void VerifyAdminRoleIsAbleToEditNonProbationaryEmployee()
         {
-            LoginPageModel login = new LoginPageModel(this.TestObject);
-            MembersPage membersPage = new MembersPage(this.TestObject);
-            AddEmployeePageModel newEmployeeRecord = new AddEmployeePageModel(this.TestObject);
-            HomePageModel homepage = new HomePageModel(this.TestObject);
+            LoginPageModel login = new LoginPageModel(TestObject);
+            MembersPage membersPage = new MembersPage(TestObject);
+            AddEmployeePageModel newEmployeeRecord = new AddEmployeePageModel(TestObject);
+            HomePageModel homepage = new HomePageModel(TestObject);
 
-            EmployeeListPageModel employeeList = new EmployeeListPageModel(this.TestObject);
-            EmployeeRecordPageModel employeeRecord = new EmployeeRecordPageModel(this.TestObject);
-            EditEmployeePageModel editEmployeeRecord = new EditEmployeePageModel(this.TestObject);
+            EmployeeListPageModel employeeList = new EmployeeListPageModel(TestObject);
+            EmployeeRecordPageModel employeeRecord = new EmployeeRecordPageModel(TestObject);
+            EditEmployeePageModel editEmployeeRecord = new EditEmployeePageModel(TestObject);
 
             string username = Config.GetGeneralValue("Username");
             string password = Config.GetGeneralValue("Password");
@@ -63,7 +63,7 @@ namespace Tests
 
             // Adding a new employee while probationary is off
             membersPage.ClickGoToInputPageButton();
-            
+
             string empName = newEmployeeRecord.GenerateRandomName();
             string empNameToLower = empName.ToLower();
             string empNameToEmailFormat = empNameToLower.Replace(" ", ".");
@@ -76,16 +76,16 @@ namespace Tests
 
             List<string> newEmployeeDetails = new List<string>()
             {
-                empCognizantId, 
+                empCognizantId,
                 empName,
-                empEmail, 
+                empEmail,
                 empWorkState,
-                empJobLevel, 
+                empJobLevel,
                 empHiredDate,
                 empProjectAssign
             };
 
-            newEmployeeRecord.CreateNewEmployee(newEmployeeDetails, false);            
+            newEmployeeRecord.CreateNewEmployee(newEmployeeDetails, false);
 
             //Search employee by employee ID
             homepage.EnterEmployeeID(empCognizantId);
@@ -134,14 +134,14 @@ namespace Tests
         [TestMethod]
         public void VerifyAdminRoleIsAbleToEditProbationaryEmployee()
         {
-            LoginPageModel login = new LoginPageModel(this.TestObject);
-            MembersPage membersPage = new MembersPage(this.TestObject);
-            AddEmployeePageModel newEmployeeRecord = new AddEmployeePageModel(this.TestObject);
-            HomePageModel homepage = new HomePageModel(this.TestObject);
+            LoginPageModel login = new LoginPageModel(TestObject);
+            MembersPage membersPage = new MembersPage(TestObject);
+            AddEmployeePageModel newEmployeeRecord = new AddEmployeePageModel(TestObject);
+            HomePageModel homepage = new HomePageModel(TestObject);
 
-            EmployeeListPageModel employeeList = new EmployeeListPageModel(this.TestObject);
-            EmployeeRecordPageModel employeeRecord = new EmployeeRecordPageModel(this.TestObject);
-            EditEmployeePageModel editEmployeeRecord = new EditEmployeePageModel(this.TestObject);
+            EmployeeListPageModel employeeList = new EmployeeListPageModel(TestObject);
+            EmployeeRecordPageModel employeeRecord = new EmployeeRecordPageModel(TestObject);
+            EditEmployeePageModel editEmployeeRecord = new EditEmployeePageModel(TestObject);
 
             string username = Config.GetGeneralValue("Username");
             string password = Config.GetGeneralValue("Password");
