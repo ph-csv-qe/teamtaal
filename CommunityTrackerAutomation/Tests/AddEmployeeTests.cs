@@ -10,6 +10,7 @@ using Models.WebPage.Selenium;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -179,12 +180,16 @@ namespace Tests
 
             // Verifying if employee is existing in the excel file
             var employeeExcelList = DataReader.ReadExcelFile();
+            DateTime selectedEmployeeHireDate = Convert.ToDateTime(employeeExcelList[2].HireDate);
+            string convertedSelectedEmployeeHireDate = selectedEmployeeHireDate.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
+            var employeeDetailsHireDate = employeeDetailsList[5];
+
             if (employeeExcelList[2].AssociateID == Convert.ToInt32(employeeDetailsList[0]))
             {
                 Assert.AreEqual(employeeExcelList[2].AssociateID, Convert.ToInt32(employeeDetailsList[0]), $"Employee ID {employeeDetailsList[0]} is existing in the Allocation Mock Data");
                 Assert.AreEqual(employeeExcelList[2].Name, employeeDetailsList[1], $"Employee Name {employeeDetailsList[1]} is existing in the Allocation Mock Data");
                 Assert.AreEqual(employeeExcelList[2].Project, "MagenicPDPBench");
-                Assert.AreEqual(employeeExcelList[2].HireDate, $"{employeeDetailsList[5]} 12:00:00 am");
+                Assert.AreEqual(convertedSelectedEmployeeHireDate, employeeDetailsHireDate);
             }
             else
             {
